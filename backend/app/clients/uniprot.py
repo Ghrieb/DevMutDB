@@ -52,6 +52,56 @@ async def fetch_domains(gene: str, max_retries: int = 2) -> Dict[str, Any]:
                         if domain_class not in ["DNA_BINDING", "CATALYTIC"]:
                             domain_class = "STRUCTURAL"
                 
+                # Fallback: check UniProt keywords for DNA-binding
+                if domain_class == "REGULATORY":
+                    for kw in protein.get("keywords", []):
+                        if "dna-binding" in kw.get("name", "").lower():
+                            domain_class = "DNA_BINDING"
+                            break
+                
+                # Fallback: check domain descriptions for known DNA-binding domains
+                if domain_class == "REGULATORY":
+                    dna_domain_kw = [
+                        "homeobox", "homeodomain", "paired box",
+                        "forkhead", "winged helix",
+                        "bhlh", "helix-loop-helix", "basic helix",
+                        "hmg box", "hmg-box",
+                        "zinc finger", "t-box", "arid",
+                        "pou", "ets", "runx", "gata", "myb", "rel", "stat",
+                        "leucine zipper", "bzip",
+                        "p53", "pax",
+                    ]
+                    for feature in domain_features:
+                        desc = feature.get("description", "").lower()
+                        if any(kw in desc for kw in dna_domain_kw):
+                            domain_class = "DNA_BINDING"
+                            break
+                
+                # Fallback: check keywords + domain descriptions for catalytic activity
+                if domain_class == "REGULATORY":
+                    catalytic_keywords = [
+                        "kinase", "transferase", "methyltransferase",
+                        "demethylase", "hydrolase", "helicase",
+                        "oxidoreductase", "dioxygenase",
+                        "lyase", "isomerase", "ligase",
+                        "protease", "nuclease",
+                    ]
+                    for kw in protein.get("keywords", []):
+                        kw_name = kw.get("name", "").lower()
+                        if any(k in kw_name for k in catalytic_keywords):
+                            domain_class = "CATALYTIC"
+                            break
+                
+                if domain_class == "REGULATORY":
+                    for feature in domain_features:
+                        desc = feature.get("description", "").lower()
+                        if any(kw in desc for kw in [
+                            "jmjc", "jmjd", "set domain",
+                            "catalytic", "methyltransferase", "demethylase",
+                        ]):
+                            domain_class = "CATALYTIC"
+                            break
+                
                 return {
                     "domain_class": domain_class,
                     "uniprot_id": uniprot_id,

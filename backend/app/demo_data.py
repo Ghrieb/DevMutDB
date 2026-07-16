@@ -26,6 +26,7 @@ _BRCA1_EXPRESSION = build_profile_from_known("adult",         2741)
 _SHH_EXPRESSION = build_profile_from_known("gastrulation",   4200)
 _TP53_EXPRESSION = build_profile_from_known("adult",          4600)
 _FOXP2_EXPRESSION = build_profile_from_known("organogenesis", 3400)
+_ANKRD11_EXPRESSION = build_profile_from_known("organogenesis", 3600)
 
 
 # ---------- gene metadata + default variants ----------
@@ -133,6 +134,27 @@ DEMO_GENES: Dict[str, Dict[str, Any]] = {
                 "domain_class": "DNA_BINDING",
                 "gnomad_af": 0.00001,
                 "expression": _TP53_EXPRESSION,
+            },
+        },
+    },
+    "ANKRD11": {
+        "chromosome": "16q24.3",
+        "full_name": "Ankyrin repeat domain-containing protein 11",
+        "description": "Transcriptional regulator with ankyrin repeats; KBG syndrome",
+        "ensembl_id": "ENSG00000165684",
+        "uniprot_id": "Q6RW13",
+        "clinvar_id": "VCV000126653",
+        "gnomad_id": "ANKRD11:c.1903C>T",
+        "variants": {
+            "c.1903C>T": {
+                "protein_change": "p.Arg635Ter",
+                "cadd_phred": 36.0,
+                "clinvar_classification": "Pathogenic",
+                "sift_score": None,
+                "polyphen_score": None,
+                "domain_class": "REGULATORY",
+                "gnomad_af": 0.0,
+                "expression": _ANKRD11_EXPRESSION,
             },
         },
     },

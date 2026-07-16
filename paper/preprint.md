@@ -31,9 +31,10 @@ For genes with experimentally characterised developmental expression in E-MTAB-6
 
 ## Results
 
-On benchmark genes: Mean absolute error = 8.3 points (0-100 scale)
-- ROC AUC for pathogenic vs. benign: 0.931
-- Sensitivity for gastrulation-critical genes: 0.95
+*Benchmark results pending recalibration following domain classification improvements.*
+- Mean absolute error: TBD points (0–100 scale)
+- ROC AUC for developmental vs. adult-onset: TBD
+- Sensitivity for gastrulation-critical genes: TBD
 
 ## Discussion
 
