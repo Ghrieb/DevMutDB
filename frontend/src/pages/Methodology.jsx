@@ -209,7 +209,7 @@ export default function Methodology() {
           <h3>Headline performance</h3>
           <div className="validation-summary">
             <div className="validation-metric">
-              <strong>0.927</strong>
+              <strong>0.931</strong>
               <span>DevScore AUC (n=110, all variant classes)</span>
             </div>
             <div className="validation-metric">
@@ -222,13 +222,13 @@ export default function Methodology() {
           <div className="validation-metrics-grid">
             <div className="validation-compare">
               <span className="compare-tool">DevScore</span>
-              <span className="compare-auc">0.927</span>
+              <span className="compare-auc">0.931</span>
               <span className="compare-margin">&mdash;</span>
             </div>
             <div className="validation-compare">
               <span className="compare-tool">CADD</span>
               <span className="compare-auc">0.457</span>
-              <span className="compare-margin positive">+0.470</span>
+              <span className="compare-margin positive">+0.474</span>
             </div>
             <div className="validation-compare">
               <span className="compare-tool">SIFT</span>
