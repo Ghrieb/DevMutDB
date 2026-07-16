@@ -9,7 +9,7 @@
     "api/index.py": {
       "includeFiles": "backend/app/**",
       "memory": 512,
-      "maxDuration": 10
+      "maxDuration": 30
     }
   }
 }
