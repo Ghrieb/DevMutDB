@@ -1,4 +1,12 @@
 {
   "framework": null,
-  "buildCommand": "cd frontend && npm i && npm run build && rm -rf ../backend/app/static && cp -r dist ../backend/app/static"
+  "buildCommand": "cd frontend && npm i && npm run build && rm -rf ../backend/app/static && cp -r dist ../backend/app/static",
+  "functions": {
+    "backend/app/main.py": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/" }
+  ]
 }
