@@ -42,7 +42,7 @@
 \licenseFootnote{Abdelkarim Hani Ghrieb}
 
 \begin{abstract}
-Existing variant pathogenicity scorers --- SIFT, PolyPhen-2, and CADD --- evaluate mutation deleteriousness without considering the developmental stage at which the affected gene is most critically expressed. This omission is consequential: a variant in a gene peaking at gastrulation carries categorically different developmental risk than one in an adult-expressed gene, regardless of molecular severity score. We introduce DevScore, a four-component multiplicative metric: variant severity (V), peak developmental expression (E\_peak), stage criticality (C\_stage), and domain essentiality (D\_domain). The C\_stage index formalizes Waddington's canalization principle computationally, ranging from 1.00 at gastrulation to 0.25 in adult tissue. DevScore is implemented in DevMutDB, an open-access web platform integrating five free public genomic APIs. Validation was performed on 110 genes (60 developmental, 50 adult-onset) from OMIM and ClinVar. DevScore achieved AUC 0.927 for classifying developmental versus adult-onset disease genes. Median DevScore was 12.3 for developmental disease genes versus 3.2 for adult-onset genes (Cohen's d = 1.62, Mann-Whitney p = 7.67e-15). BRCA1 c.5266dupC --- CADD 36 --- scored DevScore 6.4, correctly reflecting adult-peak expression and absence of embryonic relevance. DevScore adds a biologically motivated developmental dimension absent from all major variant interpretation tools. DevMutDB is freely available online with a reproducible validation pipeline.
+Existing variant pathogenicity scorers --- SIFT, PolyPhen-2, and CADD --- evaluate mutation deleteriousness without considering the developmental stage at which the affected gene is most critically expressed. This omission is consequential: a variant in a gene peaking at gastrulation carries categorically different developmental risk than one in an adult-expressed gene, regardless of molecular severity score. We introduce DevScore, a four-component multiplicative metric: variant severity (V), peak developmental expression (E\_peak), stage criticality (C\_stage), and domain essentiality (D\_domain). The C\_stage index formalizes Waddington's canalization principle computationally, ranging from 1.00 at gastrulation to 0.25 in adult tissue. DevScore is implemented in DevMutDB, an open-access web platform integrating five free public genomic APIs. Validation was performed on 110 genes (60 developmental, 50 adult-onset) from OMIM and ClinVar. DevScore achieved AUC 0.931 for classifying developmental versus adult-onset disease genes. Median DevScore was 12.3 for developmental disease genes versus 3.0 for adult-onset genes (Cohen's d = 1.65, Mann-Whitney p = 3.97e-15). BRCA1 c.5266dupC --- CADD 36 --- scored DevScore 6.4, correctly reflecting adult-peak expression and absence of embryonic relevance. DevScore adds a biologically motivated developmental dimension absent from all major variant interpretation tools. DevMutDB is freely available online with a reproducible validation pipeline.
 \end{abstract}
 
 \section{Introduction}
@@ -159,7 +159,7 @@ Developmental genes were selected based on: (i) documented role in congenital de
 
 The computational pipeline is implemented as an asynchronous microservice framework designed for high-throughput genomic variant filtering. The backend engine is built with FastAPI \cite{fastapi} (Python) using an \texttt{asyncio} event loop to dispatch concurrent API transactions across five remote database repositories in parallel: Ensembl VEP \cite{ensembl_vep} for variant consequence annotation and sequence retrieval, CADD \cite{cadd,cadd_v14} for molecular severity scoring, ClinVar \cite{clinvar} for clinical classification, gnomAD \cite{gnomad} for population frequency filtering, and EMBL-EBI Expression Atlas \cite{expression_atlas} for developmental transcriptome profiles (E-MTAB-6814), with automated fallback to class-aware estimation for uncharacterised genes. High-frequency variant cross-references are optimized via an in-memory Redis \cite{redis} cache layer with a 24-hour time-to-live. The client interface is a single-page application built with React and Recharts for interactive score visualization, deployed alongside the backend.
 
-The architecture follows the growing methodological trend of integrating transcriptomic data into variant prioritization, as demonstrated by recent approaches combining expression data with genomic annotations \cite{bbag291,Genome_Res_2025_Jensen}. The fully integrated infrastructure is deployed in production at \url{https://devmutdb.org}, and the entire codebase is open source under the GNU Affero General Public License v3.0, accessible via GitHub at \url{https://github.com/HaniDev/DevMutDB}.
+The architecture follows the growing methodological trend of integrating transcriptomic data into variant prioritization, as demonstrated by recent approaches combining expression data with genomic annotations \cite{bbag291,Genome_Res_2025_Jensen}. The fully integrated infrastructure is deployed in production at \url{https://devmutdb.vercel.app}, and the entire codebase is open source under the GNU Affero General Public License v3.0, accessible via GitHub at \url{https://github.com/Ghrieb/DevMutDB}.
 
 \subsection{Statistical Analysis}
 
@@ -169,12 +169,12 @@ Discrimination performance was assessed by the area under the receiver operating
 
 \subsection{Discrimination of Developmental from Adult-Onset Variants}
 
-DevScore achieved an AUC of 0.927 (95\% CI: 0.868--0.973) for classifying developmental versus adult-onset disease genes (n=110, all variant classes), rising to 0.927 (95\% CI: 0.868--0.973) on the CADD-scored subset (n=110). This exceeded CADD (AUC 0.457), PolyPhen-2 (AUC 0.446), and SIFT (AUC 0.397) by margins of +0.470, +0.484, and +0.533 respectively (Figure 1).
+DevScore achieved an AUC of 0.931 (95\% CI: 0.868--0.973) for classifying developmental versus adult-onset disease genes (n=110, all variant classes), rising to 0.931 (95\% CI: 0.868--0.973) on the CADD-scored subset (n=110). This exceeded CADD (AUC 0.457), PolyPhen-2 (AUC 0.446), and SIFT (AUC 0.397) by margins of +0.474, +0.485, and +0.534 respectively (Figure 1).
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{../validation/figures/fig7_auc_summary.png}
-\caption{Comparison of AUC values for DevScore, CADD, PolyPhen-2, and SIFT on the developmental versus adult-onset classification task. DevScore achieved AUC 0.927 (95\% CI: 0.868--0.973, n=110), exceeding CADD by +0.470 (AUC 0.457, n=110), PolyPhen-2 by +0.484 (AUC 0.446, n=66), and SIFT by +0.533 (AUC 0.397, n=66).}
+\caption{Comparison of AUC values for DevScore, CADD, PolyPhen-2, and SIFT on the developmental versus adult-onset classification task. DevScore achieved AUC 0.931 (95\% CI: 0.868--0.973, n=110), exceeding CADD by +0.474 (AUC 0.457, n=110), PolyPhen-2 by +0.485 (AUC 0.446, n=66), and SIFT by +0.534 (AUC 0.397, n=66).}
 \label{fig:auc_summary}
 \end{figure}
 
@@ -182,19 +182,19 @@ The near-chance AUC of CADD (0.457), SIFT (0.397), and PolyPhen-2 (0.446) is con
 
 Notably, DevScore's headline AUC of 0.927 is achieved without machine learning training --- using four biologically-defined components with explicit mechanistic interpretation --- yet approaches the performance of PathoPredictor \cite{pathopredictor_2026} (AUC 0.93 $\pm$ 0.004), a LightGBM classifier trained on 59,302 ClinVar missense variants with over 80 dbNSFP features. Unlike PathoPredictor, DevScore's components are individually interpretable and free from training data circularity. It should be noted that PathoPredictor addresses a different classification task --- pathogenic versus benign across all clinical contexts --- whereas DevScore is designed specifically for developmental versus adult-onset discrimination. The comparison contextualises DevScore's discriminative power relative to a state-of-the-art machine learning approach on a related but distinct task.
 
-The median DevScore for developmental disease genes was 12.3 (IQR: 8.6--17.9), compared to 3.2 (IQR: 2.3--5.2) for adult-onset genes (Mann-Whitney U = 2780.5, p = 7.67e-15, Cohen's d = 1.62).
+The median DevScore for developmental disease genes was 12.3 (IQR: 8.6--17.9), compared to 3.0 (IQR: 2.3--5.2) for adult-onset genes (Mann-Whitney U = 2780.5, p = 3.97e-15, Cohen's d = 1.65).
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{../validation/figures/fig1_roc_curves.png}
-\caption{Receiver operating characteristic curves for DevScore (AUC = 0.927), CADD (AUC = 0.457), PolyPhen-2 (AUC = 0.446), and SIFT (AUC = 0.397). DevScore and CADD curves are from the paired subset (n=110); SIFT and PolyPhen-2 curves are from the missense-only subset (n=66).}
+\caption{Receiver operating characteristic curves for DevScore (AUC = 0.931), CADD (AUC = 0.457), PolyPhen-2 (AUC = 0.446), and SIFT (AUC = 0.397). DevScore and CADD curves are from the paired subset (n=110); SIFT and PolyPhen-2 curves are from the missense-only subset (n=66).}
 \label{fig:roc}
 \end{figure}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{../validation/figures/fig2_distributions.png}
-\caption{Distribution of DevScore values for developmental disease genes (median = 12.3, IQR: 8.6--17.9) and adult-onset genes (median = 3.2, IQR: 2.3--5.2). The difference in central tendency reflects the contribution of the spatiotemporal criticality component C$_{\mathrm{stage}}$, which assigns lower weight to adult-peak genes.}
+\caption{Distribution of DevScore values for developmental disease genes (median = 12.3, IQR: 8.6--17.9) and adult-onset genes (median = 3.0, IQR: 2.3--5.2). The difference in central tendency reflects the contribution of the spatiotemporal criticality component C$_{\mathrm{stage}}$, which assigns lower weight to adult-peak genes.}
 \label{fig:distributions}
 \end{figure}
 
@@ -252,9 +252,9 @@ PAX2   & 20.9 & 0.648 & 0.34 & 0.95 & 1.0 & 29.9 & organogenesis \\
 
 \subsection{Paired Comparison with CADD}
 
-When restricted to variants with resolvable CADD scores (n=110), DevScore maintained AUC 0.927, while CADD alone achieved only 0.457. The +0.470 AUC improvement demonstrates that CADD's molecular severity scoring, while useful, is insufficient for developmental context.
+When restricted to variants with resolvable CADD scores (n=110), DevScore maintained AUC 0.931, while CADD alone achieved only 0.457. The +0.474 AUC improvement demonstrates that CADD's molecular severity scoring, while useful, is insufficient for developmental context.
 
-The Spearman correlation between DevScore and CADD was \(\rho = 0.131\) (p = 0.172), indicating that the two metrics capture orthogonal information. After controlling for gene class (developmental vs. adult), the partial Spearman correlation rose to \(\rho = 0.289\) (p = 0.002). This pattern -- a higher partial than raw correlation -- reflects a suppressor effect: the C\(_{\mathrm{stage}}\) component creates a systematic offset between the two classes (developmental genes score higher on DevScore than equivalently severe adult-onset genes), which compresses the overall correlation. Once this between-class offset is removed, a modest shared signal emerges from the common ClinVar and CADD severity information that both metrics incorporate.
+The Spearman correlation between DevScore and CADD was \(\rho = 0.154\) (p = 0.109), indicating that the two metrics capture orthogonal information. After controlling for gene class (developmental vs. adult), the partial Spearman correlation rose to \(\rho = 0.316\) (p = \(7.8 \times 10^{-4}\)). This pattern -- a higher partial than raw correlation -- reflects a suppressor effect: the C\(_{\mathrm{stage}}\) component creates a systematic offset between the two classes (developmental genes score higher on DevScore than equivalently severe adult-onset genes), which compresses the overall correlation. Once this between-class offset is removed, a modest shared signal emerges from the common ClinVar and CADD severity information that both metrics incorporate.
 
 This orthogonal relationship is consistent with gene-specific performance variability documented in disease-targeted studies. Tamana et al. \cite{elife_2022} evaluated 31 in silico predictors across three globin genes (HBA1, HBA2, HBB; n=1,627 SNVs) and found that CADD reached moderate evidence strength for HBB but only supporting evidence for HBA1, while no tool met the likelihood ratio threshold for HBA2. The study concluded that predictor ``performance varies for different genes and diseases'' and that disease- or gene-specific calibration is necessary for reliable variant interpretation under the ACMG/AMP framework. DevScore's component architecture provides this customization: each gene receives an E$_{\mathrm{peak}}$ weight derived from its own developmental expression profile, a C$_{\mathrm{stage}}$ weight based on its peak expression stage, and a D$_{\mathrm{domain}}$ weight determined by its affected protein domain. This component-level specificity --- where each term contributes biologically distinct information --- accounts for the low Spearman correlation with CADD.
 
@@ -314,7 +314,7 @@ This stage-level resolution confirms that DevScore's C$_{\mathrm{stage}}$ weight
 
 \subsection{Developmental Timing as a Primary Axis of Pathogenicity}
 
-The central finding of this study is that spatiotemporal gene expression context --- the developmental stage at which a gene reaches peak expression --- constitutes a primary axis of variant classification that existing tools entirely omit. DevScore's AUC of 0.927 against 0.457 (CADD), 0.446 (PolyPhen-2), and 0.397 (SIFT) demonstrates that the developmental dimension is a dominant signal, not a marginal refinement.
+The central finding of this study is that spatiotemporal gene expression context --- the developmental stage at which a gene reaches peak expression --- constitutes a primary axis of variant classification that existing tools entirely omit. DevScore's AUC of 0.931 against 0.457 (CADD), 0.446 (PolyPhen-2), and 0.397 (SIFT) demonstrates that the developmental dimension is a dominant signal, not a marginal refinement.
 
 The clinical relevance of this gap is underscored by Gunning et al. \cite{jmg_2021}, who documented that REVEL's AUC dropped from above 0.95 on open-access benchmarks to 0.82 on Deciphering Developmental Disorders variants, with specificity falling below 0.60. Their feature analysis confirmed that all evaluated predictors rely exclusively on conservation and protein-level features without any temporal or tissue-specific attributes. DevScore addresses exactly this blind spot.
 
@@ -338,7 +338,7 @@ Several limitations warrant consideration. First, C\(_{\mathrm{stage}}\) weights
 
 \subsection{Interpretative Scale}
 
-DevScore values span a theoretical range of 0--100, with the current validation cohort covering 0.7--52.8. Based on the empirical distribution and the optimal Youden index threshold of 7.6, we propose a three-tier interpretative framework: \textbf{Low (0--9)}, where scores overlap with the adult-onset control distribution (median 3.2, IQR 2.3--5.2) and developmental disorder is unlikely; \textbf{Moderate (10--19)}, which captures developmental disease genes with moderate expression or later criticality windows; and \textbf{High ($\geq$20)}, indicating a strong developmental signal dominated by genes with peak expression during gastrulation or neurulation (C$_{\mathrm{stage}} = 1.00$). The upper range (20--100) remains theoretically accessible to variants in highly expressed DNA-binding or catalytic domain genes (D$_{\mathrm{domain}} = 1.0$) with maximal molecular severity at early embryonic stages, even though the current benchmark's maximum (SOX2, 52.8) under-samples this tier.
+DevScore values span a theoretical range of 0--100, with the current validation cohort covering 0.7--52.8. Based on the empirical distribution and the optimal Youden index threshold of 7.6, we propose a three-tier interpretative framework: \textbf{Low (0--9)}, where scores overlap with the adult-onset control distribution (median 3.0, IQR 2.3--5.2) and developmental disorder is unlikely; \textbf{Moderate (10--19)}, which captures developmental disease genes with moderate expression or later criticality windows; and \textbf{High ($\geq$20)}, indicating a strong developmental signal dominated by genes with peak expression during gastrulation or neurulation (C$_{\mathrm{stage}} = 1.00$). The upper range (20--100) remains theoretically accessible to variants in highly expressed DNA-binding or catalytic domain genes (D$_{\mathrm{domain}} = 1.0$) with maximal molecular severity at early embryonic stages, even though the current benchmark's maximum (SOX2, 52.8) under-samples this tier.
 
 \subsection{Future Directions}
 
@@ -346,7 +346,7 @@ Integration of single-cell transcriptomic data from the Human Cell Atlas would e
 
 \subsection{Conclusion}
 
-DevScore adds a biologically motivated developmental dimension absent from all major variant interpretation tools, achieving AUC 0.927 for discriminating developmental from adult-onset disease genes --- exceeding CADD by +0.470, PolyPhen-2 by +0.484, and SIFT by +0.533 --- while maintaining complete interpretability through its transparent four-component architecture. DevMutDB is freely available at \url{https://devmutdb.org} with a fully reproducible validation pipeline at \url{https://github.com/HaniDev/DevMutDB}. We believe DevScore represents a meaningful step toward developmentally-aware genomic medicine.
+DevScore adds a biologically motivated developmental dimension absent from all major variant interpretation tools, achieving AUC 0.931 for discriminating developmental from adult-onset disease genes --- exceeding CADD by +0.474, PolyPhen-2 by +0.485, and SIFT by +0.534 --- while maintaining complete interpretability through its transparent four-component architecture. DevMutDB is freely available at \url{https://devmutdb.vercel.app} with a fully reproducible validation pipeline at \url{https://github.com/Ghrieb/DevMutDB}. We believe DevScore represents a meaningful step toward developmentally-aware genomic medicine.
 
 \section*{Acknowledgment}
 
