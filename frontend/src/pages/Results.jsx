@@ -256,20 +256,19 @@ export default function Results({ result }) {
             If you use DevScore or the DevMutDB platform in your research, please cite our preprint:
           </p>
           <div className="bg-white p-4 rounded border border-gray-200 mb-4 font-mono text-sm text-gray-800 shadow-sm leading-relaxed select-all">
-            <strong>DevMutDB Consortium</strong> (2025). <em>DevMutDB: A Developmental Mutation Pathogenicity Scoring System</em>. bioRxiv preprint. doi:<a href="https://doi.org/10.1101/2025.xx.xx" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">10.1101/2025.xx.xx</a>
+            <strong>Ghrieb, A. H.</strong> (2025). <em>DevScore: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants</em>. bioRxiv preprint. DOI: TBD
           </div>
           <details className="text-xs text-gray-500 cursor-pointer">
             <summary className="font-semibold text-purple-600 hover:text-purple-800 transition-colors mb-2">
               Show BibTeX citation
             </summary>
             <pre className="bg-gray-50 p-3 rounded border border-gray-200 font-mono overflow-x-auto text-[11px] leading-tight select-all">
-{`@article{devmutdb2025,
-  title={DevMutDB: A Developmental Mutation Pathogenicity Scoring System},
-  author={DevMutDB Consortium},
+{`@article{ghrieb2025devscore,
+  title={DevScore: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants},
+  author={Ghrieb, Abdelkarim Hani},
   journal={bioRxiv preprint},
   year={2025},
-  doi={10.1101/2025.xx.xx},
-  url={https://doi.org/10.1101/2025.xx.xx}
+  doi={TBD}
 }`}
             </pre>
           </details>
