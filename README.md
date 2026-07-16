@@ -1,9 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="
-      data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238B7FFF'/%3E%3Cstop offset='100%25' stop-color='%235546C8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='20' y='64' font-family='Inter,-apple-system,sans-serif' font-size='36' font-weight='800' fill='url(%23g)'%3EDevMutDB%3C/text%3E%3Crect x='20' y='74' width='44' height='4' rx='2' fill='%238B7FFF' opacity='0.6'/%3E%3Ctext x='20' y='92' font-family='Inter,-apple-system,sans-serif' font-size='13' fill='%239CA3AF' font-weight='500'%3EDevScore /dev-%CB%88sk%C3%B4r/%3C/text%3E%3C/svg%3E">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%235546C8'/%3E%3Cstop offset='100%25' stop-color='%23372E8A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='20' y='64' font-family='Inter,-apple-system,sans-serif' font-size='36' font-weight='800' fill='url(%23g)'%3EDevMutDB%3C/text%3E%3Crect x='20' y='74' width='44' height='4' rx='2' fill='%235546C8' opacity='0.6'/%3E%3Ctext x='20' y='92' font-family='Inter,-apple-system,sans-serif' font-size='13' fill='%236B7280' font-weight='500'%3EDevScore /dev-%CB%88sk%C3%B4r/%3C/text%3E%3C/svg%3E" alt="DevMutDB" width="400">
-  </picture>
+  <img src="frontend/src/components/DevMutDB-Logo.png" alt="DevMutDB" width="400">
 </p>
 
 <p align="center">
