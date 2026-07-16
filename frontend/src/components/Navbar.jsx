@@ -52,7 +52,7 @@ export default function Navbar({ actions }) {
         <div className="navbar-right">
           {actions || (
             <a
-              href="https://github.com/DevMutDB/DevMutDB"
+              href="https://github.com/Ghrieb/DevMutDB"
               className="btn btn-outline btn-sm"
               target="_blank"
               rel="noopener noreferrer"

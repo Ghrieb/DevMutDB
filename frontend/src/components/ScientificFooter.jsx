@@ -15,11 +15,11 @@ export default function ScientificFooter() {
         </div>
 
         <div className="footer-links">
-          <a href="https://github.com/DevMutDB/DevMutDB" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.com/Ghrieb/DevMutDB" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://doi.org/10.1101/2025.xx.xx" target="_blank" rel="noopener noreferrer">Preprint</a>
           <a href="/methodology">Methodology</a>
           <a href="/api">API</a>
-          <a href="https://github.com/DevMutDB/DevMutDB/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a>
+          <a href="https://github.com/Ghrieb/DevMutDB/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a>
         </div>
 
         <div className="footer-credit">
