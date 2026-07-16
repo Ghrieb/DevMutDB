@@ -209,7 +209,7 @@ def check_api_alive(url: str) -> bool:
 def score_variant(gene: str, hgvs: str) -> Tuple[Optional[dict], str]:
     """Call the DevMutDB /score endpoint for one variant.
     Returns (data_dict, reason)."""
-    return post_json(f"{API_BASE}/score", {"gene": gene, "hgvs": hgvs})
+    return post_json(f"{API_BASE}/api/score", {"gene": gene, "hgvs": hgvs})
 
 
 def extract_cadd(data: dict) -> Optional[float]:

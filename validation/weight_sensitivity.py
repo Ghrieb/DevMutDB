@@ -146,7 +146,7 @@ ADULT_ONSET_GENES = [
 def query_api(gene, hgvs):
     payload = json.dumps({"gene": gene, "hgvs": hgvs}).encode("utf-8")
     req = urllib.request.Request(
-        f"{API_BASE}/score",
+        f"{API_BASE}/api/score",
         data=payload,
         headers={"Content-Type": "application/json"},
         method="POST",
