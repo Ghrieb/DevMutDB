@@ -55,7 +55,7 @@ const sourceChips = (result) => {
 const stageLabel = (stage) => (stage || 'unknown').replace(/_/g, ' ');
 
 const timingExplanation = (result) => {
-  const scoreType = result.score < 9 ? 'low score' : result.score < 20 ? 'moderate score' : 'high score';
+  const scoreType = result.score <= 9 ? 'low score' : result.score < 20 ? 'moderate score' : 'high score';
   const stage = stageLabel(result.peak_stage);
   const direction = result.C_stage < 0.5
     ? 'is the key driver of this low developmental score'
@@ -102,7 +102,7 @@ export default function Results({ result }) {
 
   const chips = sourceChips(result);
   const score = Math.round(result.score);
-  const riskLevel = score >= 20 ? 'critical' : score >= 9 ? 'moderate' : 'low';
+  const riskLevel = score >= 20 ? 'critical' : score > 9 ? 'moderate' : 'low';
   const riskColors = {
     critical: { bg: '#E6E2FF', border: '#6B5CE7', text: '#6B5CE7' },
     moderate: { bg: '#FFFDE6', border: '#D97706', text: '#D97706' },
@@ -136,7 +136,7 @@ export default function Results({ result }) {
               <span className={result.clinvar_classification === 'Pathogenic' || result.clinvar_classification === 'Likely pathogenic' ? 'badge badge-danger' : 'badge badge-neutral'}>
                 {result.clinvar_classification || 'Unknown significance'}
               </span>
-              <span className={score < 9 ? 'badge badge-success' : score < 20 ? 'badge badge-warning' : 'badge badge-danger'}><strong>DevScore {score}</strong> - {score < 9 ? 'Low developmental impact' : score < 20 ? 'Moderate developmental impact' : 'High developmental impact'}</span>
+              <span className={score <= 9 ? 'badge badge-success' : score < 20 ? 'badge badge-warning' : 'badge badge-danger'}><strong>DevScore {score}</strong> - {score <= 9 ? 'Low developmental impact' : score < 20 ? 'Moderate developmental impact' : 'High developmental impact'}</span>
               <span className="badge badge-neutral">{result.protein_change?.includes('fs') ? 'Frameshift' : 'Variant'}</span>
               <span className="badge badge-primary">5 public APIs integrated</span>
             </div>

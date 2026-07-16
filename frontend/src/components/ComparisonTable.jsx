@@ -1,6 +1,6 @@
 const verdictForDevScore = (score) => {
   if (score >= 20) return { label: 'High dev. impact', tone: 'danger' };
-  if (score >= 9) return { label: 'Moderate dev. impact', tone: 'warning' };
+  if (score > 9) return { label: 'Moderate dev. impact', tone: 'warning' };
   return { label: 'Low dev. impact', tone: 'success' };
 };
 

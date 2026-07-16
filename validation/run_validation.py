@@ -255,6 +255,52 @@ def youden_j(labels, scores):
     return thresholds[ix], tpr[ix], 1 - fpr[ix]
 
 
+def tier_analysis(dev, adult):
+    """Tier distribution for the interpretative scale (0-9, 10-19, >=20)."""
+    def in_tier(df, lo, hi):
+        return df[(df["devscore"] >= lo) & (df["devscore"] <= hi)]
+
+    tiers = [
+        ("Low (0-9)", 0, 9),
+        ("Moderate (10-19)", 10, 19),
+        ("High (>=20)", 20, 100),
+    ]
+
+    rows = []
+    total_dev = len(dev)
+    total_adult = len(adult)
+
+    for name, lo, hi in tiers:
+        d = len(in_tier(dev, lo, hi))
+        a = len(in_tier(adult, lo, hi))
+        sens = d / total_dev if total_dev > 0 else 0
+        spec = (total_adult - a) / total_adult if total_adult > 0 else 0
+        ppv = d / (d + a) if (d + a) > 0 else 0
+        rows.append((name, d, a, sens, spec, ppv))
+
+    d_pos = sum(r[1] for r in rows[1:])
+    a_pos = sum(r[2] for r in rows[1:])
+    sens_pos = d_pos / total_dev if total_dev > 0 else 0
+    spec_pos = (total_adult - a_pos) / total_adult if total_adult > 0 else 0
+    ppv_pos = d_pos / (d_pos + a_pos) if (d_pos + a_pos) > 0 else 0
+
+    cstage_info = []
+    for name, lo, hi in tiers:
+        d_tier = in_tier(dev, lo, hi)
+        a_tier = in_tier(adult, lo, hi)
+        d_c = d_tier["C_stage"].mean() if len(d_tier) > 0 else None
+        a_c = a_tier["C_stage"].mean() if len(a_tier) > 0 else None
+        cstage_info.append((name, d_c, a_c))
+
+    peak_info = {}
+    for name, lo, hi in tiers:
+        d_tier = in_tier(dev, lo, hi)
+        raw = d_tier["peak_stage"].value_counts().to_dict()
+        peak_info[name] = {k.replace("_", " ").title(): v for k, v in raw.items()}
+
+    return rows, (sens_pos, spec_pos, ppv_pos), cstage_info, peak_info
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # MAIN PIPELINE
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -524,6 +570,29 @@ def main():
         f.write(f"Adult genes median DevScore: {adult['devscore'].median():.1f}\n")
         f.write(f"Spearman(DevScore, CADD): rho={rho:.3f}, p={p_spearman:.3e}\n")
         f.write(f"Partial Spearman (controlling for class): rho={rho_partial:.3f}, p={p_partial:.3e}\n")
+
+    # ── Tier Distribution Analysis ──────────────────────────────────────
+    tier_rows, tier_cumul, tier_cstage, tier_peak = tier_analysis(dev, adult)
+
+    with open(REPORT_TXT, "a") as f:
+        f.write(f"\n─── Interpretative Scale — Tier Distribution ────────────────\n")
+        f.write(f"{'Tier':<20} {'Dev':>5} {'Adult':>5} {'Sens':>7} {'Spec':>7} {'PPV':>7}\n")
+        for name, d, a, sens, spec, ppv in tier_rows:
+            f.write(f"{name:<20} {d:>5} {a:>5} {sens:>6.1%} {spec:>6.1%} {ppv:>6.1%}\n")
+        f.write(f"\nModerate+High (>=10) as positive:\n")
+        f.write(f"  Sensitivity: {tier_cumul[0]:.2%}\n")
+        f.write(f"  Specificity: {tier_cumul[1]:.2%}\n")
+        f.write(f"  PPV:         {tier_cumul[2]:.2%}\n")
+        f.write(f"\nMean C_stage per tier:\n")
+        for name, d_c, a_c in tier_cstage:
+            d_str = f"{d_c:.3f}" if d_c is not None else "N/A"
+            a_str = f"{a_c:.3f}" if a_c is not None else "N/A"
+            f.write(f"  {name:<20} dev={d_str}  adult={a_str}\n")
+        f.write(f"\nDev gene peak stage distribution (count):\n")
+        for name, _, _ in [("Low (0-9)", 0, 9), ("Moderate (10-19)", 10, 19), ("High (>=20)", 20, 100)]:
+            if name in tier_peak and tier_peak[name]:
+                stages = ", ".join([f"{s}:{n}" for s, n in sorted(tier_peak[name].items(), key=lambda x: -x[1])])
+                f.write(f"  {name:<20} {stages}\n")
     print(f"\n  Saved {REPORT_TXT}")
 
     # ── Step 3: Figures ─────────────────────────────────────────────────────
@@ -833,6 +902,34 @@ def main():
     plt.close(fig)
     print("  Saved Fig 7 \u2014 AUC summary")
 
+    # Fig 8 — Interpretative tier distribution (grouped bar)
+    fig, ax = plt.subplots(figsize=(6, 4.5))
+    tier_labels = ["Low\n(0\u20139)", "Moderate\n(10\u201319)", "High\n(\u226520)"]
+    x = np.arange(len(tier_labels))
+    width = 0.35
+    dev_counts = [r[1] for r in tier_rows]
+    adult_counts = [r[2] for r in tier_rows]
+    bars1 = ax.bar(x - width/2, dev_counts, width, label="Developmental", color=PURPLE, edgecolor="white", linewidth=0.5)
+    bars2 = ax.bar(x + width/2, adult_counts, width, label="Adult-onset", color=TEAL, edgecolor="white", linewidth=0.5)
+    for bar in bars1:
+        h = bar.get_height()
+        if h > 0:
+            ax.text(bar.get_x() + bar.get_width()/2, h + 0.3, str(int(h)), ha="center", va="bottom", fontsize=10, fontweight="bold", color=PURPLE)
+    for bar in bars2:
+        h = bar.get_height()
+        if h > 0:
+            ax.text(bar.get_x() + bar.get_width()/2, h + 0.3, str(int(h)), ha="center", va="bottom", fontsize=10, fontweight="bold", color=TEAL)
+    ax.set_xticks(x)
+    ax.set_xticklabels(tier_labels, fontsize=9)
+    ax.set_ylabel("Gene count")
+    ax.set_title("Fig. 8 \u2014 Interpretative tier distribution: DevScore by gene class", fontsize=10)
+    ax.legend(fontsize=9)
+    ax.set_ylim(0, max(max(dev_counts), max(adult_counts)) * 1.25)
+    fig.tight_layout()
+    fig.savefig(os.path.join(FIGURES_DIR, "fig8_tier_distribution.png"), bbox_inches="tight")
+    plt.close(fig)
+    print("  Saved Fig 8 \u2014 Tier distribution")
+
     # ── Final summary ───────────────────────────────────────────────────────
     print("\n" + "=" * 62)
     print("  VALIDATION COMPLETE")
@@ -853,7 +950,7 @@ def main():
     print("  FILES SAVED:")
     print(f"  {RESULTS_CSV}")
     print(f"  {REPORT_TXT}")
-    print(f"  {FIGURES_DIR}/fig[1-7].png/.pdf")
+    print(f"  {FIGURES_DIR}/fig[1-8].png/.pdf")
     print("=" * 62)
 
 

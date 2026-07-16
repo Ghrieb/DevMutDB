@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
  * Color coding:
  *   ≥ 20  →  red    (critical developmental impact)
  *   9-19  →  orange (moderate developmental impact)
- *   < 9   →  green  (limited developmental impact)
+ *   ≤ 9   →  green  (limited developmental impact)
  *
  * Animates the ring stroke on mount using requestAnimationFrame.
  */
@@ -21,7 +21,7 @@ export default function ScoreRing({ score, size = 130 }) {
   const danger = '#E74C3C'; // Critical red
   const moderate = '#F39C12'; // Moderate orange
   const low = '#27AE60'; // Low green
-  const color = score >= 20 ? danger : score >= 9 ? moderate : low;
+  const color = score >= 20 ? danger : score > 9 ? moderate : low;
 
   useEffect(() => {
     const circle = circleRef.current;

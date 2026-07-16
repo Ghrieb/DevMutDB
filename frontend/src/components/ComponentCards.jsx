@@ -45,7 +45,7 @@ export default function ComponentCards({ result }) {
       key: 'DevScore',
       label: 'DevScore',
       value: formatNumber(result.score, 1),
-      detail: result.score < 9 ? 'Low dev. impact' : result.score < 20 ? 'Moderate dev. impact' : 'High dev. impact',
+      detail: result.score <= 9 ? 'Low dev. impact' : result.score < 20 ? 'Moderate dev. impact' : 'High dev. impact',
       primary: true,
     },
   ];
