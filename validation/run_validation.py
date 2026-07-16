@@ -311,7 +311,7 @@ def main():
     print("=" * 62)
 
     # ── Verify API ──────────────────────────────────────────────────────────
-    if not check_api_alive(f"{API_BASE}/"):
+    if not check_api_alive(f"{API_BASE}/api/"):
         print(f"\nERROR: Cannot reach DevMutDB API at {API_BASE}/")
         print("Make sure the backend is running:")
         print("  uvicorn app.main:app --reload")
