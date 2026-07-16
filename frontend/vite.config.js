@@ -5,9 +5,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: {
-      '/score': 'http://localhost:8001',
-      '/report': 'http://localhost:8001',
-    }
+    import { defineConfig } from 'vite'
+import react from '@vitejs/react-swc'
+
+export default defineConfig({
+  plugins: [react()],
+})
+
   }
 })
