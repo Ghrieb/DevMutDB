@@ -2306,10 +2306,14 @@ code, pre {
   flex-wrap: wrap;
   gap: 0 10px;
   align-items: center;
-  margin-top: 20px;
-  padding: 12px 16px;
+  justify-content: center;
+  margin: 0 auto 40px;
+  padding: 14px 20px;
   border-radius: var(--radius-md);
   max-width: 820px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
 }
 
 .hero-stat {
