@@ -1,13 +1,8 @@
 {
-  "buildCommand": "cd frontend && npm i && npm run build",
+  "buildCommand": "cd frontend && npm i && npm run build && cp -r ../backend/app ../api/app",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/index.py": {
-      "includeFiles": "backend/**"
-    }
-  }
+  ]
 }
