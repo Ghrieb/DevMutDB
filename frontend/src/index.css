@@ -2724,8 +2724,8 @@ code, pre {
   padding: 12px 14px;
   border: 2px solid #d1d5db;
   border-radius: 10px;
-  font-size: 0.9rem;
-  font-family: monospace;
+  font-size: 0.95rem;
+  font-family: inherit;
   outline: none;
   box-sizing: border-box;
   background: #fff;
