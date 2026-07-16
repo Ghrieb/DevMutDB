@@ -32,7 +32,7 @@ import matplotlib.patches as mpatches
 from scipy import stats
 from sklearn.metrics import roc_curve, auc
 
-API_BASE = "http://localhost:8005"
+API_BASE = "http://localhost:8000"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_CSV = os.path.join(SCRIPT_DIR, "benchmark_results.csv")
 REPORT_TXT = os.path.join(SCRIPT_DIR, "statistics_report.txt")

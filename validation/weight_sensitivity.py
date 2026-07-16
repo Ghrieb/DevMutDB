@@ -16,7 +16,7 @@ import time
 import urllib.request
 import urllib.error
 
-API_BASE = "http://localhost:8005"
+API_BASE = "http://localhost:8000"
 THROTTLE_S = 1.5
 REQUEST_TIMEOUT = 60
 
