@@ -1,16 +1,15 @@
-import sys
 import os
+import sys
 
-# Get the root task path dynamically provided by Vercel
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Locate the precise runtime server folder tree provided by Vercel
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+backend_dir = os.path.join(project_root, "backend")
 
-# Force target directories straight into the core registry loop
-backend_path = os.path.join(root_dir, "backend")
-app_parent_path = os.path.join(root_dir, "backend", "app")
+# Bind all structural root lookups into the absolute top tier
+sys.path.insert(0, project_root)
+sys.path.insert(0, backend_dir)
 
-for path in [backend_path, app_parent_path, root_dir]:
-    if path not in sys.path:
-        sys.path.insert(0, path)
-
-# Import directly from the verified module paths
-from backend.app.main import app
+# Import the direct sub-module explicitly
+import backend.app.main as main_module
+app = main_module.app
