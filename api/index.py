@@ -14,4 +14,3 @@ for path in [backend_path, app_parent_path, root_dir]:
 
 # Import directly from the verified module paths
 from backend.app.main import app
-
