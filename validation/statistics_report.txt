@@ -1,0 +1,28 @@
+DevMutDB Validation Statistics Report
+==================================================
+
+Benchmark: 60 developmental + 50 adult-onset genes
+API failures: 0
+
+DevScore AUC 95% CI: (0.875--0.976)
+Youden's J: threshold=7.60, sensitivity=0.850, specificity=0.940
+
+AUC Results (three decoupled pairwise subsets):
+  Subset 1 — Headline DevScore (n=110, all variant classes):
+    DevScore:                 0.931
+  Subset 2 — vs CADD (n=110, CADD-resolved variants):
+    DevScore (paired):         0.931
+    CADD:                      0.457
+    Improvement (DevScore-CADD): +0.474
+  Subset 3 — Missense-only (n=66, SIFT+PolyPhen applicable):
+    DevScore (missense-paired): 0.930
+    SIFT:                      0.397  (evolutionary constraint — onset-blind)
+    PolyPhen-2:                0.446  (evolutionary constraint — onset-blind)
+  Note: SIFT AUC=0.397 and PolyPhen-2 AUC=0.446: Sequence-level conservation algorithms assign severe pathogenicity to adult Mendelian controls (e.g., TP53, BRCA1), demonstrating that evolutionary constraint alone cannot resolve developmental timing. DevScore addresses this ontological gap via spatiotemporal criticality (C_stage).
+
+Mann-Whitney U: U=2794.5, p=3.97e-15 ***
+Cohen's d: 1.65
+Dev genes median DevScore: 12.3
+Adult genes median DevScore: 3.0
+Spearman(DevScore, CADD): rho=0.154, p=1.091e-01
+Partial Spearman (controlling for class): rho=0.316, p=7.799e-04

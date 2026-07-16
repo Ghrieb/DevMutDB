@@ -1,0 +1,111 @@
+gene,hgvs,disease,omim_id,class,devscore,V,E_peak,C_stage,D_domain,peak_stage,cadd,sift,polyphen,source,data_warnings
+SOX2,c.70C>T,Anophthalmia-esophageal-genital,206900,developmental,52.8,0.91,0.58,1.0,1.0,gastrulation,34.0,0.0,0.999,demo_curated,None
+PAX6,c.357G>A,Aniridia,106210,developmental,24.0,0.571,0.42,1.0,1.0,neurulation,24.7,0.0,0.999,live_api,None
+TWIST1,c.586C>T,Saethre-Chotzen syndrome,101400,developmental,9.2,0.539,0.36,0.95,0.5,organogenesis,22.6,,,live_api,None
+FGFR3,c.1138G>A,Achondroplasia,100800,developmental,17.5,0.56,0.48,0.65,1.0,fetal_early,24.0,0.07,0.255,live_api,None
+NKX2-5,c.655G>T,Atrial septal defect,108900,developmental,21.2,0.531,0.42,0.95,1.0,organogenesis,22.1,0.34,0.239,live_api,None
+TBX5,c.1001C>T,Holt-Oram syndrome,142900,developmental,21.3,0.546,0.41,0.95,1.0,organogenesis,23.1,0.08,0.075,live_api,None
+PTPN11,c.922A>G,Noonan syndrome,163950,developmental,19.0,0.557,0.36,0.95,1.0,organogenesis,23.8,0.03,0.134,live_api,None
+NIPBL,c.5350G>T,Cornelia de Lange syndrome,122470,developmental,10.9,0.603,0.38,0.95,0.5,organogenesis,26.9,0.01,0.706,live_api,None
+KAT6A,c.1358A>G,KAT6A syndrome (dev. delay),616268,developmental,18.7,0.585,0.32,1.0,1.0,neurulation,25.7,0.03,0.798,live_api,None
+FOXP2,c.1652T>C,Speech-language disorder,602081,developmental,12.8,0.397,0.34,0.95,1.0,organogenesis,13.15,,,live_api,None
+CHD7,c.2815G>T,CHARGE syndrome,214800,developmental,18.5,0.77,0.48,1.0,0.5,gastrulation,38.0,,,live_api,None
+KDM6A,c.3272C>T,Kabuki syndrome 2,300867,developmental,9.2,0.665,0.29,0.95,0.5,organogenesis,31.0,0.0,0.824,live_api,None
+MED13L,c.2623G>A,Intellectual disability syndrome,616686,developmental,8.6,0.552,0.31,1.0,0.5,neurulation,23.5,0.2,0.831,live_api,None
+SETD5,c.1957C>T,Mental retardation autosomal dominant,615761,developmental,7.6,0.54,0.28,1.0,0.5,neurulation,22.7,0.04,0.13,live_api,None
+ADNP,c.2157C>A,Helsmoortel-Van der Aa syndrome,615873,developmental,18.5,0.543,0.34,1.0,1.0,gastrulation,22.9,,,live_api,None
+ANKRD11,c.1903C>T,KBG syndrome,148050,developmental,12.7,0.74,0.36,0.95,0.5,organogenesis,36.0,,,live_api,None
+ARID1B,c.3637C>T,Coffin-Siris syndrome,135900,developmental,7.9,0.454,0.35,1.0,0.5,neurulation,16.91,0.01,0.998,live_api,None
+KMT2D,c.15607C>T,Kabuki syndrome 1,147920,developmental,9.9,0.546,0.38,0.95,0.5,organogenesis,23.1,0.1,0.276,live_api,None
+EP300,c.4417C>T,Rubinstein-Taybi syndrome 2,613684,developmental,16.8,0.8,0.42,1.0,0.5,gastrulation,43.0,,,live_api,None
+CREBBP,c.4435C>T,Rubinstein-Taybi syndrome 1,180849,developmental,17.6,0.8,0.44,1.0,0.5,gastrulation,43.0,,,live_api,None
+DYRK1A,c.703C>T,DYRK1A syndrome,614104,developmental,22.4,0.621,0.36,1.0,1.0,neurulation,28.1,0.0,0.999,live_api,None
+FOXG1,c.256C>T,Rett syndrome congenital,613454,developmental,34.8,0.725,0.48,1.0,1.0,neurulation,35.0,,,live_api,None
+MECP2,c.397C>T,Rett syndrome,312750,developmental,24.0,0.665,0.38,0.95,1.0,organogenesis,31.0,0.0,1.0,live_api,None
+PTEN,c.697C>T,Cowden syndrome (hamartoma dev.),158350,developmental,12.3,0.725,0.34,0.5,1.0,fetal_late,35.0,,,live_api,None
+RET,c.1900T>C,Hirschsprung disease,142623,developmental,11.2,0.615,0.28,0.65,1.0,fetal_early,27.7,0.0,0.999,live_api,None
+SHH,c.736C>T,Holoprosencephaly,236100,developmental,11.1,0.528,0.42,1.0,0.5,gastrulation,21.9,0.03,0.297,live_api,None
+GLI3,c.2497C>T,Pallister-Hall syndrome,146510,developmental,8.7,0.483,0.36,1.0,0.5,gastrulation,18.88,0.05,0.049,live_api,None
+NOTCH3,c.328C>T,CADASIL (vascular dev.),125310,developmental,6.1,0.581,0.42,0.5,0.5,fetal_late,25.4,0.14,0.856,live_api,None
+JAG1,c.1808G>A,Alagille syndrome,118450,developmental,11.0,0.68,0.34,0.95,0.5,organogenesis,32.0,0.0,0.998,live_api,None
+EYA1,c.1435C>T,Branchio-oto-renal syndrome,113650,developmental,10.0,0.362,0.29,0.95,1.0,organogenesis,10.78,,,live_api,None
+SALL1,c.3167C>T,Townes-Brocks syndrome,107480,developmental,4.5,0.366,0.26,0.95,0.5,organogenesis,11.04,,,live_api,None
+WT1,c.1180C>T,Denys-Drash syndrome,194080,developmental,9.2,0.545,0.52,0.65,0.5,fetal_early,23.0,0.0,0.997,live_api,None
+PAX2,c.76C>T,Renal-coloboma syndrome,120330,developmental,20.9,0.648,0.34,0.95,1.0,organogenesis,29.9,0.01,0.846,live_api,None
+ROBO3,c.2747C>T,Horizontal gaze palsy,257930,developmental,2.0,0.595,0.22,0.3,0.5,neonatal,26.3,0.01,0.749,live_api,None
+EFNB1,c.391C>T,Craniofrontonasal syndrome,304110,developmental,7.9,0.593,0.28,0.95,0.5,organogenesis,26.2,0.0,0.969,live_api,None
+FGF8,c.412C>T,Holoprosencephaly 6,605309,developmental,9.0,0.56,0.32,1.0,0.5,gastrulation,24.0,0.02,0.428,live_api,None
+OTX2,c.402C>T,Anophthalmia/microphthalmia,610125,developmental,24.0,0.522,0.46,1.0,1.0,gastrulation,21.5,,,live_api,None
+VSX2,c.574C>T,Microphthalmia isolated,610093,developmental,17.3,0.568,0.32,0.95,1.0,organogenesis,24.5,0.05,0.967,live_api,None
+FOXC1,c.829C>T,Axenfeld-Rieger syndrome,602482,developmental,13.6,0.397,0.36,0.95,1.0,organogenesis,13.14,,,live_api,None
+GJB2,c.35delG,Deafness autosomal recessive,220290,developmental,4.2,0.585,0.48,0.3,0.5,neonatal,25.7,,,live_api,None
+MYO7A,c.5936C>T,Usher syndrome type 1B,276900,developmental,1.6,0.355,0.22,0.3,0.7,neonatal,10.36,,,live_api,None
+CLN3,c.280_461del,Batten disease (neuronal ceroid),204200,developmental,5.4,0.635,0.34,0.5,0.5,fetal_late,29.0,,,live_api,None
+HESX1,c.449G>A,Septo-optic dysplasia,182230,developmental,17.7,0.68,0.26,1.0,1.0,neurulation,32.0,,,live_api,None
+LHX3,c.236G>A,Pituitary hormone deficiency,221750,developmental,10.6,0.59,0.18,1.0,1.0,neurulation,26.0,,,live_api,None
+PROP1,c.301_302delAG,Combined pituitary hormone def.,262600,developmental,8.5,0.528,0.16,1.0,1.0,gastrulation,21.9,,,live_api,None
+DHCR7,c.1210C>T,Smith-Lemli-Opitz syndrome,270400,developmental,18.1,0.695,0.52,1.0,0.5,gastrulation,33.0,0.0,1.0,live_api,None
+PKD1,c.12058C>T,Polycystic kidney disease,173900,developmental,9.8,0.519,0.58,0.65,0.5,fetal_early,21.3,,,live_api,None
+PDGFRB,c.1681C>T,Infantile myofibromatosis,228550,developmental,15.7,0.71,0.34,0.65,1.0,fetal_early,34.0,0.0,0.994,live_api,None
+TRPV4,c.1855C>T,Skeletal dysplasia (congenital),600175,developmental,5.1,0.555,0.28,0.65,0.5,fetal_early,23.7,0.64,1.0,live_api,None
+RUNX2,c.674G>A,Cleidocranial dysplasia,119600,developmental,9.4,0.615,0.32,0.95,0.5,organogenesis,27.7,0.03,0.879,live_api,None
+HOXD13,c.905G>A,Synpolydactyly,186000,developmental,13.6,0.597,0.24,0.95,1.0,organogenesis,26.5,,,live_api,None
+SALL4,c.1873C>T,Duane-radial ray syndrome,607323,developmental,12.8,0.8,0.32,1.0,0.5,gastrulation,43.0,,,live_api,None
+STRA6,c.1219C>T,Matthew-Wood syndrome,601186,developmental,4.7,0.354,0.28,0.95,0.5,organogenesis,10.25,0.1,0.01,live_api,None
+KAT6B,c.3978C>T,Say-Barber-Biesecker syndrome,603736,developmental,17.8,0.603,0.31,0.95,1.0,organogenesis,26.9,,,live_api,None
+SMAD3,c.1024C>T,Loeys-Dietz syndrome 3,613795,developmental,12.3,0.68,0.38,0.95,0.5,organogenesis,32.0,0.0,0.99,live_api,None
+FBN1,c.5788C>T,Marfan syndrome (connective dev.),154700,developmental,14.6,0.725,0.62,0.65,0.5,fetal_early,35.0,0.0,0.998,live_api,None
+COL1A1,c.934C>T,Osteogenesis imperfecta,166200,developmental,27.6,0.611,0.68,0.95,0.7,organogenesis,27.4,0.0,0.998,live_api,None
+COL2A1,c.4006C>T,Stickler syndrome,108300,developmental,15.1,0.306,0.74,0.95,0.7,organogenesis,7.06,,,live_api,None
+COMP,c.1273C>T,Pseudoachondroplasia,177170,developmental,6.0,0.515,0.36,0.65,0.5,fetal_early,21.0,,,live_api,None
+FBN2,c.3454C>T,Congenital contractural arachnodactyly,121050,developmental,7.7,0.566,0.42,0.65,0.5,fetal_early,24.4,0.34,0.833,live_api,None
+BRCA1,c.5266dupC,Breast-ovarian cancer,604370,adult,6.4,0.94,0.274,0.25,1.0,adult,36.0,,,demo_curated,None
+BRCA2,c.5946delT,Breast-ovarian cancer 2,612555,adult,4.8,0.8,0.48,0.25,0.5,adult,44.0,,,live_api,None
+APOE,c.388T>C,Alzheimer disease,104310,adult,5.9,0.471,1.0,0.25,0.5,adult,18.07,1.0,0.001,live_api,None
+LRRK2,c.6055G>A,Parkinson disease 8,168600,adult,3.1,0.68,0.18,0.25,1.0,adult,32.0,0.0,1.0,live_api,None
+SNCA,c.88G>C,Parkinson disease 1,168601,adult,1.8,0.641,0.22,0.25,0.5,adult,29.4,0.0,0.996,live_api,None
+HTT,c.52G>A,Huntington disease,143100,adult,2.0,0.506,0.32,0.25,0.5,adult,20.4,0.0,0.042,live_api,None
+ATM,c.7271T>G,Ataxia-telangiectasia,208900,adult,9.4,0.625,0.6,0.25,1.0,adult,28.3,0.0,0.996,live_api,None
+MLH1,c.1852_1854del,Lynch syndrome,120436,adult,2.8,0.8,0.28,0.25,0.5,adult,41.0,,,live_api,None
+MSH2,c.1865T>A,Lynch syndrome 1,609310,adult,2.2,0.665,0.26,0.25,0.5,adult,31.0,0.0,1.0,live_api,None
+APC,c.3927_3931del,Familial adenomatous polyposis,175100,adult,3.0,0.74,0.32,0.25,0.5,adult,36.0,,,live_api,None
+VHL,c.499C>T,Von Hippel-Lindau disease,193300,adult,2.2,0.631,0.28,0.25,0.5,adult,28.7,0.0,1.0,live_api,None
+NF1,c.3199G>T,Neurofibromatosis type 1 (adult),162200,adult,4.5,0.695,0.52,0.25,0.5,adult,33.0,0.0,0.996,live_api,None
+NF2,c.863_864del,Neurofibromatosis type 2,101000,adult,2.3,0.77,0.24,0.25,0.5,adult,38.0,,,live_api,None
+RB1,c.2644C>T,Retinoblastoma (adult onset),180200,adult,2.0,0.566,0.28,0.25,0.5,adult,24.4,,,live_api,None
+TP53,c.817C>T,Li-Fraumeni syndrome,151623,adult,8.2,0.71,0.46,0.25,1.0,adult,34.0,0.0,0.999,live_api,None
+CDKN2A,c.238C>T,Melanoma/pancreatic cancer,155601,adult,0.7,0.328,0.18,0.25,0.5,adult,8.53,,,live_api,None
+MEN1,c.1546C>T,Multiple endocrine neoplasia 1,131100,adult,1.8,0.638,0.22,0.25,0.5,adult,29.2,,,live_api,None
+SDHB,c.423+1G>T,Paraganglioma-pheochromocytoma,168000,adult,2.9,0.725,0.32,0.25,0.5,adult,35.0,,,live_api,None
+TSC1,c.1888C>T,Tuberous sclerosis 1 (adult features),191100,adult,2.3,0.755,0.24,0.25,0.5,adult,37.0,,,live_api,None
+TSC2,c.5024C>T,Tuberous sclerosis 2,613254,adult,2.3,0.569,0.32,0.25,0.5,adult,24.6,0.0,0.999,live_api,None
+PKD2,c.2243C>T,Polycystic kidney disease 2 (adult),173910,adult,1.7,0.571,0.24,0.25,0.5,adult,24.7,0.17,0.461,live_api,None
+MYBPC3,c.3330+2T>G,Hypertrophic cardiomyopathy,115197,adult,5.5,0.533,0.82,0.25,0.5,adult,22.2,,,live_api,None
+MYH7,c.1208G>A,Dilated cardiomyopathy,115200,adult,10.0,0.593,0.96,0.25,0.7,adult,26.2,0.01,0.998,live_api,None
+KCNQ1,c.1032G>A,Long QT syndrome 1 (adult arrhythmia),192500,adult,2.7,0.517,0.42,0.25,0.5,adult,21.1,,,live_api,None
+SCN5A,c.4234C>T,Brugada syndrome,601144,adult,4.2,0.596,0.56,0.25,0.5,adult,26.4,0.0,0.985,live_api,None
+LDLR,c.1418G>A,Familial hypercholesterolemia,143890,adult,4.7,0.551,0.68,0.25,0.5,adult,23.4,0.01,0.833,live_api,None
+PCSK9,c.1120G>T,Hypercholesterolemia autosomal dominant,607786,adult,6.8,0.62,0.44,0.25,1.0,adult,28.0,0.0,0.993,live_api,None
+F5,c.1601G>A,Factor V Leiden thrombophilia,188055,adult,2.1,0.446,0.38,0.25,0.5,adult,16.41,,,live_api,None
+HBB,c.20A>T,Sickle cell anemia (adult crisis),141900,adult,5.1,0.408,1.0,0.25,0.5,adult,13.85,0.01,0.007,live_api,None
+CFTR,c.1521_1523del,Cystic fibrosis (adult features),219700,adult,4.1,0.637,0.52,0.25,0.5,adult,29.1,,,live_api,None
+G6PD,c.202G>A,G6PD deficiency (adult hemolysis),300908,adult,6.6,0.578,0.46,0.25,1.0,adult,25.2,,,live_api,None
+HEXA,c.1274_1277dup,Tay-Sachs adult form,272800,adult,3.4,0.56,0.24,0.25,1.0,adult,24.0,,,live_api,None
+GBA,c.1226A>G,Gaucher disease (adult onset),230800,adult,5.0,0.555,0.36,0.25,1.0,adult,23.7,0.02,0.191,live_api,None
+FMR1,c.413G>A,Fragile X syndrome,300624,adult,2.5,0.545,0.36,0.25,0.5,adult,23.0,0.17,0.997,live_api,None
+AR,c.2713C>T,Androgen insensitivity adult,300068,adult,5.2,0.608,0.34,0.25,1.0,adult,27.2,0.0,0.999,live_api,None
+PKHD1,c.107C>T,Fibrocystic liver disease adult,263200,adult,2.5,0.583,0.34,0.25,0.5,adult,25.5,0.0,0.999,live_api,None
+COL3A1,c.2411G>A,Ehlers-Danlos vascular (adult rupture),130050,adult,5.6,0.665,0.48,0.25,0.7,adult,31.0,0.0,0.999,live_api,None
+TGFBR2,c.1582C>T,Loeys-Dietz adult aortic,610168,adult,5.7,0.71,0.32,0.25,1.0,adult,34.0,0.0,1.0,live_api,None
+CACNA1A,c.4042C>T,Episodic ataxia adult onset,108500,adult,3.6,0.695,0.42,0.25,0.5,adult,33.0,0.0,1.0,live_api,None
+PRKCG,c.1258C>T,Spinocerebellar ataxia 14,605361,adult,4.1,0.583,0.28,0.25,1.0,adult,25.5,0.0,0.993,live_api,None
+ATXN1,c.1A>G,Spinocerebellar ataxia 1,164400,adult,2.4,0.573,0.34,0.25,0.5,adult,24.9,0.0,0.952,live_api,None
+DMPK,c.1268A>G,Myotonic dystrophy,160900,adult,4.7,0.552,0.34,0.25,1.0,adult,23.5,0.23,0.996,live_api,None
+SOD1,c.272A>G,ALS adult onset,105400,adult,1.8,0.251,0.56,0.25,0.5,adult,3.43,1.0,0.0,live_api,None
+FUS,c.1561C>T,ALS-FUS adult onset,608030,adult,2.9,0.555,0.42,0.25,0.5,adult,23.7,0.0,0.0,live_api,None
+TARDBP,c.1144G>A,ALS-TDP43 adult,612069,adult,2.5,0.518,0.38,0.25,0.5,adult,21.2,0.13,0.026,live_api,None
+OPTN,c.458G>A,ALS/glaucoma,602432,adult,2.1,0.35,0.478,0.25,0.5,adult,10.02,,,live_api,None
+VCP,c.464G>A,ALS/FTD/IBM,601023,adult,3.8,0.569,0.532,0.25,0.5,adult,24.6,0.14,0.197,live_api,None
+SQSTM1,c.1175C>T,ALS/Paget disease,601530,adult,4.0,0.578,0.548,0.25,0.5,adult,25.2,,,live_api,None
+GRN,c.709-1G>A,Frontotemporal dementia adult,607485,adult,2.4,0.599,0.32,0.25,0.5,adult,26.6,,,live_api,None
+MAPT,c.1853T>C,Frontotemporal dementia MAPT,600274,adult,2.9,0.641,0.36,0.25,0.5,adult,29.4,0.0,0.986,live_api,None

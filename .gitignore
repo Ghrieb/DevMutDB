@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+.claude/
+.agents/
+
+# Build outputs
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Logs (anywhere in project)
+*.log
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.bak
+Latex/log/
+Latex/Manuscrpit.pdf
+
+# Downloaded reference PDFs (38 MB — not project source)
+Latex/ref/
+
+# Generated validation figures
+validation/figures/
+
+# Root-level dev artifacts (duplicates, scratch, notes)
+app/
+memory/
+00_START_HERE.md
+FINAL_STATUS.txt
+PRODUCTION_READY.md
+QUICK_START.md
+context.md
+
+# Scratch/test files (not project source)
+scratch_check.py
+test_ebi.py
+ebi_test.json
+downloads_page.html
+bootstrap.py
+bootstrap-v2.py
+bootstrap-v3.py
+bootstrap-complete.py
+production-bootstrap.py
+setup_dirs.py
+create_dirs.bat
+package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
