@@ -4,10 +4,11 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 import asyncio
 import httpx
 import re
+import os
 from typing import Dict, Any, List, Optional, Tuple
 
 from .devscore.models import ScoreRequest, DevScoreResponse, HGVS_PATTERNS
@@ -619,4 +620,28 @@ async def score(request: ScoreRequest) -> Dict[str, Any]:
 
     cache.set(cache_key, response_dict)
     return response_dict
+
+
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
+
+
+@app.get("/")
+async def serve_index():
+    index_path = os.path.join(STATIC_DIR, "index.html")
+    if os.path.isfile(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    raise HTTPException(status_code=404, detail="Not found")
+
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    if full_path.startswith("api/"):
+        raise HTTPException(status_code=404, detail="Not found")
+    file_path = os.path.join(STATIC_DIR, full_path)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    index_path = os.path.join(STATIC_DIR, "index.html")
+    if os.path.isfile(index_path):
+        return FileResponse(index_path, media_type="text/html")
+    raise HTTPException(status_code=404, detail="Not found")
 

@@ -15,6 +15,7 @@ public/
 
 # Python
 __pycache__/
+backend/app/static/
 *.pyc
 .pytest_cache/
 .mypy_cache/
