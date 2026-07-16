@@ -8,6 +8,7 @@ CADD is NOT available via the public Ensembl REST API -- use the
 separate CADD client.
 """
 
+import asyncio
 import httpx
 import re
 from typing import Optional, Dict, Any
@@ -17,19 +18,26 @@ async def fetch_vep(gene: str, hgvs: str,
                     chrom: Optional[str] = None,
                     pos: Optional[int] = None,
                     ref_allele: Optional[str] = None,
-                    alt_allele: Optional[str] = None) -> Dict[str, Any]:
+                    alt_allele: Optional[str] = None,
+                    max_retries: int = 2) -> Dict[str, Any]:
     """
     Fetch variant annotation from Ensembl VEP REST API (GRCh38).
 
-    Tries the HGVS POST endpoint first.  If the API reports a reference
-    allele mismatch, falls back to the VCF-style region POST (requires
-    chrom/pos/ref/alt).
+    Tries the HGVS POST endpoint first with retries on transient failures.
+    If the API reports a reference allele mismatch, falls back to the VCF-style
+    region POST (requires chrom/pos/ref/alt), also with retries.
+
+    Retries:
+    - Transient errors (timeouts, 5xx, connection errors) are retried with
+      exponential backoff (1s, 2s) up to max_retries times.
+    - 422 (unprocessable HGVS) is NOT retried — it's a semantic failure.
 
     Args:
         gene: Gene symbol (e.g. "SOX2")
         hgvs: HGVS notation (e.g. "c.70C>T")
         chrom, pos, ref_allele, alt_allele: genomic coordinates for
             the VCF fallback (optional, only needed when HGVS fails).
+        max_retries: Number of retries for transient failures (default 2).
 
     Returns:
         Dict with fields:
@@ -50,55 +58,72 @@ async def fetch_vep(gene: str, hgvs: str,
         "error": "ensembl_unavailable",
     }
 
-    # ── Tier 1: HGVS POST (user's preferred method) ──────────────────────
+    # ── Tier 1: HGVS POST with retries ───────────────────────────────────
     hgvs_payload = {
         "hgvs_notations": [f"{gene}:{hgvs}"],
         "SIFT": "b",
         "PolyPhen": "b",
     }
 
-    try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            resp = await client.post(
-                server + "/vep/human/hgvs",
-                headers=headers, json=hgvs_payload,
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                if data and isinstance(data, list) and len(data) > 0:
-                    result = data[0]
-                    # Check for reference allele mismatch error embedded in result
-                    err = result.get("error")
-                    if err and "does not match reference allele" in str(err):
-                        pass  # fall through to Tier 2
-                    else:
-                        return _parse_vep_response(result)
-            elif resp.status_code == 422:
-                # Could not parse HGVS -- fall through
-                pass
-    except Exception as e:
-        print(f"VEP HGVS endpoint error: {e}")
-        # Fall through to Tier 2
+    for attempt in range(max_retries + 1):
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                resp = await client.post(
+                    server + "/vep/human/hgvs",
+                    headers=headers, json=hgvs_payload,
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    if data and isinstance(data, list) and len(data) > 0:
+                        result = data[0]
+                        err = result.get("error")
+                        if err and "does not match reference allele" in str(err):
+                            pass
+                        else:
+                            return _parse_vep_response(result)
+                elif resp.status_code == 422:
+                    break
+            break
+        except (httpx.TimeoutException, httpx.ConnectError) as e:
+            if attempt < max_retries:
+                wait = 2 ** attempt
+                print(f"VEP HGVS endpoint {gene}:{hgvs} transient error (attempt {attempt + 1}): {e} — retry in {wait}s")
+                await asyncio.sleep(wait)
+            else:
+                print(f"VEP HGVS endpoint {gene}:{hgvs} failed after {max_retries + 1} attempts: {e}")
+        except Exception as e:
+            print(f"VEP HGVS endpoint error: {e}")
+            break
 
-    # ── Tier 2: VCF region POST (fallback) ───────────────────────────────
+    # ── Tier 2: VCF region POST with retries ─────────────────────────────
     if not chrom or not pos or not ref_allele or not alt_allele:
         return {**default_result, "error": "coordinate_resolution_failed"}
 
     vcf_str = f"{chrom} {pos} . {ref_allele} {alt_allele} . . ."
     vcf_payload = {"variants": [vcf_str], "SIFT": "b", "PolyPhen": "b"}
 
-    try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            resp = await client.post(
-                server + "/vep/human/region",
-                headers=headers, json=vcf_payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            if data and isinstance(data, list) and len(data) > 0:
-                return _parse_vep_response(data[0])
-    except Exception as e:
-        print(f"VEP region endpoint error: {e}")
+    for attempt in range(max_retries + 1):
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                resp = await client.post(
+                    server + "/vep/human/region",
+                    headers=headers, json=vcf_payload,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                if data and isinstance(data, list) and len(data) > 0:
+                    return _parse_vep_response(data[0])
+            break
+        except (httpx.TimeoutException, httpx.ConnectError) as e:
+            if attempt < max_retries:
+                wait = 2 ** attempt
+                print(f"VEP region endpoint {gene}:{hgvs} transient error (attempt {attempt + 1}): {e} — retry in {wait}s")
+                await asyncio.sleep(wait)
+            else:
+                print(f"VEP region endpoint {gene}:{hgvs} failed after {max_retries + 1} attempts: {e}")
+        except Exception as e:
+            print(f"VEP region endpoint error: {e}")
+            break
 
     return default_result
 

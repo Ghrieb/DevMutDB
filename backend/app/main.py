@@ -247,43 +247,57 @@ async def _resolve_variant_coords(gene: str, hgvs: str) -> Optional[Tuple[str, i
         if all_transcripts is None:
             return None
     else:
-        try:
-            async with httpx.AsyncClient(timeout=12.0) as client:
-                resp = await client.get(
-                    f"https://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?expand=1",
-                    headers={"Content-Type": "application/json"},
-                )
-                resp.raise_for_status()
-                data = resp.json()
-                raw_txs = data.get("Transcript", [])
-                if not raw_txs:
+        all_transcripts = None
+        for attempt in range(3):
+            try:
+                async with httpx.AsyncClient(timeout=12.0) as client:
+                    resp = await client.get(
+                        f"https://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/{gene}?expand=1",
+                        headers={"Content-Type": "application/json"},
+                    )
+                    resp.raise_for_status()
+                    data = resp.json()
+                    raw_txs = data.get("Transcript", [])
+                    if not raw_txs:
+                        raise HTTPException(status_code=404, detail=f"Gene '{gene}' not found in Ensembl")
+
+                    protein_coding = [
+                        tx for tx in raw_txs
+                        if tx.get("biotype") == "protein_coding" and tx.get("Translation")
+                    ]
+                    if not protein_coding:
+                        protein_coding = [tx for tx in raw_txs if tx.get("Translation")]
+                    if not protein_coding:
+                        _COORDS_CACHE[cache_key_txs] = None
+                        return None
+
+                    def _cds_len(tx: dict) -> int:
+                        tl = tx.get("Translation", {})
+                        s, e = tl.get("start"), tl.get("end")
+                        return abs(e - s) + 1 if s and e else 0
+
+                    protein_coding.sort(key=_cds_len, reverse=True)
+                    all_transcripts = protein_coding
+                    _COORDS_CACHE[cache_key_txs] = all_transcripts
+                    break
+
+            except httpx.HTTPStatusError as e:
+                if 400 <= e.response.status_code < 500:
                     raise HTTPException(status_code=404, detail=f"Gene '{gene}' not found in Ensembl")
+                if attempt < 2:
+                    await asyncio.sleep(2 ** attempt)
+                    continue
+                raise HTTPException(status_code=502, detail=f"Ensembl API error for {gene}: {e}")
+            except (httpx.ConnectError, httpx.TimeoutException) as e:
+                if attempt < 2:
+                    print(f"Ensembl connection error for {gene} (attempt {attempt + 1}): {e} — retry")
+                    await asyncio.sleep(2 ** attempt)
+                    continue
+                print(f"Ensembl connection error for {gene} after 3 attempts: {e}")
+                _COORDS_CACHE[cache_key_txs] = None
+                return None
 
-                protein_coding = [
-                    tx for tx in raw_txs
-                    if tx.get("biotype") == "protein_coding" and tx.get("Translation")
-                ]
-                if not protein_coding:
-                    protein_coding = [tx for tx in raw_txs if tx.get("Translation")]
-                if not protein_coding:
-                    _COORDS_CACHE[cache_key_txs] = None
-                    return None
-
-                def _cds_len(tx: dict) -> int:
-                    tl = tx.get("Translation", {})
-                    s, e = tl.get("start"), tl.get("end")
-                    return abs(e - s) + 1 if s and e else 0
-
-                protein_coding.sort(key=_cds_len, reverse=True)
-                all_transcripts = protein_coding
-                _COORDS_CACHE[cache_key_txs] = all_transcripts
-
-        except httpx.HTTPStatusError as e:
-            if 400 <= e.response.status_code < 500:
-                raise HTTPException(status_code=404, detail=f"Gene '{gene}' not found in Ensembl")
-            raise HTTPException(status_code=502, detail=f"Ensembl API error for {gene}: {e}")
-        except (httpx.ConnectError, httpx.TimeoutException) as e:
-            print(f"Ensembl connection error for {gene}: {e}")
+        if all_transcripts is None:
             _COORDS_CACHE[cache_key_txs] = None
             return None
 
@@ -344,18 +358,28 @@ async def _resolve_variant_coords(gene: str, hgvs: str) -> Optional[Tuple[str, i
 
         # ── Fetch reference sequence for the affected range ──────────
         seq_end = genomic_pos + event_len - 1
-        try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                seq_resp = await client.get(
-                    f"https://grch37.rest.ensembl.org/sequence/region/human/{chrom}:{genomic_pos}-{seq_end}:1",
-                    headers={"Content-Type": "text/plain"},
-                )
-                seq_resp.raise_for_status()
-                ref = seq_resp.text.strip().upper()
-                if not ref:
+        ref = None
+        for attempt in range(3):
+            try:
+                async with httpx.AsyncClient(timeout=10.0) as client:
+                    seq_resp = await client.get(
+                        f"https://grch37.rest.ensembl.org/sequence/region/human/{chrom}:{genomic_pos}-{seq_end}:1",
+                        headers={"Content-Type": "text/plain"},
+                    )
+                    seq_resp.raise_for_status()
+                    ref = seq_resp.text.strip().upper()
+                    if not ref:
+                        ref = None
+                    break
+            except (httpx.TimeoutException, httpx.ConnectError) as e:
+                if attempt < 2:
+                    await asyncio.sleep(2 ** attempt)
                     continue
-        except Exception as e:
-            print(f"Ensembl sequence error for {gene} tx {tx.get('id', '?')}:{genomic_pos}: {e}")
+                print(f"Ensembl sequence error for {gene} tx {tx.get('id', '?')}:{genomic_pos}: {e}")
+            except Exception as e:
+                print(f"Ensembl sequence error for {gene} tx {tx.get('id', '?')}:{genomic_pos}: {e}")
+                break
+        if not ref:
             continue
 
         # ── Build genomic alt ────────────────────────────────────────
@@ -545,17 +569,15 @@ async def score(request: ScoreRequest) -> Dict[str, Any]:
         kv = KNOWN_VALUES.get(request.gene, {})
         cadd_phred = kv.get("cadd_phred")
 
-    # ── Hard failure: VEP must succeed ──
+    # ── Soft failures: VEP errors & unresolved variants become warnings ──
+    vep_warning = None
     if isinstance(vep_result, Exception):
-        msg = str(vep_result)
-        raise HTTPException(status_code=502, detail=f"VEP API error: {msg}")
+        vep_warning = f"VEP error: {str(vep_result)}"
+        vep_result = {"most_severe_consequence": None, "sift_score": None, "polyphen_score": None, "cadd_phred": cadd_phred}
+    elif isinstance(vep_result, dict) and vep_result.get("most_severe_consequence") is None:
+        vep_warning = f"Variant '{request.hgvs}' in gene '{request.gene}' not resolved by Ensembl — scored with available data"
+        vep_result = {"most_severe_consequence": "unknown", "sift_score": None, "polyphen_score": None, "cadd_phred": cadd_phred}
 
-    # Validate variant exists in Ensembl
-    if isinstance(vep_result, dict) and vep_result.get("most_severe_consequence") is None:
-        raise HTTPException(status_code=422, detail=(
-            f"Variant '{request.hgvs}' in gene '{request.gene}' could not be found "
-            "in Ensembl. Please check the HGVS notation and gene symbol."
-        ))
     # ── Soft failures: CADD and non-critical APIs just use defaults ──
     if cadd_result is not None and isinstance(cadd_result, Exception):
         cadd_result = None
@@ -601,7 +623,7 @@ async def score(request: ScoreRequest) -> Dict[str, Any]:
         "interpretation": result.interpretation,
         "ai_interpretation": result.ai_interpretation,
         "component_explanation": result.component_explanation,
-        "data_warnings": None,
+        "data_warnings": [vep_warning] if vep_warning else None,
         "source": "live_api",
         "gene_info": gene_info_result if isinstance(gene_info_result, dict) and gene_info_result.get("chromosome") else None,
         "protein_change": None,
