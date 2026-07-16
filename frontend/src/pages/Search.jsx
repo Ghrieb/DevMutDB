@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 // ── API base URL (configurable via VITE_API_URL env var) ──────────────────────
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 // ── HGVS validation patterns (mirrors backend models.py) ──────────────────────
 const HGVS_PATTERNS = [
