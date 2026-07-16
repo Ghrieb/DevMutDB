@@ -244,14 +244,14 @@ export default function Methodology() {
 
           <h3>Effect size</h3>
           <p>
-            Median DevScore for developmental genes: <strong>12.3</strong> vs adult-onset: <strong>3.2</strong>.
-            Cohen&rsquo;s <em>d</em> = <strong>1.62</strong> (very large), Mann-Whitney <em>p</em> = <strong>7.67 &times; 10<sup>&minus;15</sup></strong>.
+            Median DevScore for developmental genes: <strong>12.3</strong> vs adult-onset: <strong>3.0</strong>.
+            Cohen&rsquo;s <em>d</em> = <strong>1.65</strong> (very large), Mann-Whitney <em>p</em> = <strong>3.97 &times; 10<sup>&minus;15</sup></strong>.
           </p>
 
           <h3>Orthogonality to CADD</h3>
           <p>
-            Spearman <em>&rho;</em>(DevScore, CADD) = <strong>0.131</strong> (p = 0.172).
-            Partial Spearman (controlling for disease class): <em>&rho;</em> = <strong>0.289</strong> (p = 0.002).
+            Spearman <em>&rho;</em>(DevScore, CADD) = <strong>0.154</strong> (p = 0.109).
+            Partial Spearman (controlling for disease class): <em>&rho;</em> = <strong>0.316</strong> (p = 7.8 &times; 10<sup>&minus;4</sup>).
             The low correlation confirms that DevScore captures developmental timing information absent from CADD.
           </p>
 

@@ -52,13 +52,13 @@ DevScore = V × E_peak × C_stage × D_domain × 100
       <td><b>C_stage</b> — stage criticality</td>
       <td>0.25–1.0</td>
       <td>Curated developmental biology</td>
-      <td>Gastrulation &amp; neurulation = 1.0 · organogenesis = 0.85 · fetal = 0.65 · adult = 0.25</td>
+      <td>Gastrulation &amp; neurulation = 1.0 · organogenesis = 0.95 · fetal<sub>early</sub> = 0.65 · fetal<sub>late</sub> = 0.50 · adult = 0.25</td>
     </tr>
     <tr>
       <td><b>D_domain</b> — domain essentiality</td>
       <td>0.2–1.0</td>
       <td>UniProt</td>
-      <td>DNA-binding = 1.0 · ligand-binding = 0.7 · UTR = 0.2</td>
+      <td>DNA-binding &amp; catalytic = 1.0 · structural = 0.7 · regulatory = 0.5 · disordered = 0.4 · UTR = 0.2</td>
     </tr>
   </tbody>
 </table>

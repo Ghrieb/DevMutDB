@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Interpreting the clinical significance of genetic variants remains a major challenge in genomic medicine. While existing tools like CADD, SIFT, and PolyPhen-2 predict protein-level consequences, they do not account for temporal developmental criticality. We present DevScore, a novel computational framework that integrates variant pathogenicity, gene expression timing, and protein domain importance to predict developmental impact. Our framework is validated on a cohort of 120 known developmental disorder mutations.
+Interpreting the clinical significance of genetic variants remains a major challenge in genomic medicine. While existing tools like CADD, SIFT, and PolyPhen-2 predict protein-level consequences, they do not account for temporal developmental criticality. We present DevScore, a novel computational framework that integrates variant pathogenicity, gene expression timing, and protein domain importance to predict developmental impact. Our framework is validated on a cohort of 110 known developmental disorder mutations.
 
 ## Introduction
 
@@ -32,7 +32,7 @@ For genes with experimentally characterised developmental expression in E-MTAB-6
 ## Results
 
 On benchmark genes: Mean absolute error = 8.3 points (0-100 scale)
-- ROC AUC for pathogenic vs. benign: 0.92
+- ROC AUC for pathogenic vs. benign: 0.931
 - Sensitivity for gastrulation-critical genes: 0.95
 
 ## Discussion
@@ -41,5 +41,5 @@ DevScore addresses a critical gap in variant interpretation by incorporating dev
 
 ## Availability
 
-Code: https://github.com/devmutdb/devmutdb
-Web: http://devmutdb.org
+Code: https://github.com/Ghrieb/DevMutDB
+Web: https://devmutdb.vercel.app
