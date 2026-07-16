@@ -1,15 +1,17 @@
-import os
 import sys
-from pathlib import Path
+import os
 
-# Explicitly find the absolute backend path relative to this file
-base_dir = Path(__file__).resolve().parent.parent
-backend_path = os.path.join(base_dir, "backend")
+# Get the root task path dynamically provided by Vercel
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Insert both paths at the top of Python's lookup registry
-if backend_path not in sys.path:
-    sys.path.insert(0, backend_path)
-if str(base_dir) not in sys.path:
-    sys.path.insert(0, str(base_dir))
+# Force target directories straight into the core registry loop
+backend_path = os.path.join(root_dir, "backend")
+app_parent_path = os.path.join(root_dir, "backend", "app")
 
-from app.main import app
+for path in [backend_path, app_parent_path, root_dir]:
+    if path not in sys.path:
+        sys.path.insert(0, path)
+
+# Import directly from the verified module paths
+from backend.app.main import app
+
