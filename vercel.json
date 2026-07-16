@@ -1,4 +1,7 @@
 {
   "framework": null,
-  "buildCommand": "cd frontend && npm i && npm run build && rm -rf ../backend/app/static && cp -r dist ../backend/app/static"
+  "buildCommand": "cd frontend && npm i && npm run build && rm -rf ../backend/app/static && cp -r dist ../backend/app/static",
+  "rewrites": [
+    { "source": "/api/test", "destination": "/api/index" }
+  ]
 }
