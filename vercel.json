@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm i && npm run build && cp -r ../backend/app ../api/app",
+  "buildCommand": "cd frontend && npm i && npm run build",
   "outputDirectory": "frontend/dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },

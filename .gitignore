@@ -79,8 +79,5 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Build artifact — created by Vercel buildCommand cp -r
-api/app/
-
 # Vercel
 .vercel/
