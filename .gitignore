@@ -49,7 +49,7 @@ Latex/ref/
 validation/figures/
 
 # Root-level dev artifacts (duplicates, scratch, notes)
-app/
+/app/
 memory/
 00_START_HERE.md
 FINAL_STATUS.txt
