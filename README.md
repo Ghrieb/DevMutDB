@@ -8,17 +8,11 @@
 </p>
 
 <p align="center">
-  <a href="https://devmutdb.vercel.app">
-    <img src="https://img.shields.io/badge/Live_Demo-devmutdb.vercel.app-6B5CE7?style=for-the-badge&logo=vercel&logoColor=white" alt="Live demo">
-  </a>
-  <a href="https://doi.org/10.1101/2025.xx.xx">
-    <img src="https://img.shields.io/badge/DOI-10.1101/2025.xx.xx-2563EB?style=for-the-badge" alt="DOI">
-  </a>
-  <a href="https://github.com/Ghrieb/DevMutDB/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-AGPL_v3-059669?style=for-the-badge" alt="License">
-  </a>
-  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/AUC-0.931-7C3AED?style=for-the-badge" alt="AUC 0.931">
+  <a href="https://devmutdb.vercel.app"><img src="https://img.shields.io/badge/devmutdb.vercel.app-6B5CE7?logo=vercel&logoColor=white" alt="Demo"></a>
+  <a href="https://doi.org/10.1101/2025.xx.xx"><img src="https://img.shields.io/badge/DOI-10.1101/2025.xx.xx-2563EB" alt="DOI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL_3.0-059669" alt="License"></a>
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/AUC-0.931-7C3AED" alt="AUC">
 </p>
 
 ---
