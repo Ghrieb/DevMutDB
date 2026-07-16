@@ -631,6 +631,15 @@ code, pre {
 .hero-section {
   text-align: center;
   padding: 80px 0 40px;
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: -80px -40% 0;
+  background: radial-gradient(ellipse 800px 500px at 50% 20%, rgba(107, 92, 231, 0.045) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .hero-badge {
@@ -2591,6 +2600,45 @@ code, pre {
 .modal-info strong {
   display: block;
   margin-bottom: 2px;
+}
+
+/* ---------- example chips ---------- */
+
+.example-chips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px auto 0;
+  max-width: 640px;
+  flex-wrap: wrap;
+}
+
+.example-chips-label {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-right: 2px;
+}
+
+.example-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.example-chip:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  transform: translateY(-1px);
 }
 
 /* ---------- search form ---------- */

@@ -60,7 +60,11 @@ function validateHGVS(raw) {
   return { valid: false, error: 'Unrecognised HGVS format', hint: 'Expected: c.70C>T, c.112del, c.68_69del, c.5266dupC, p.Gly12Val' };
 }
 
-
+const QUICK_EXAMPLES = [
+  { gene: 'SOX2', hgvs: 'c.70C>T' },
+  { gene: 'PPARG', hgvs: 'p.Pro12Ala' },
+  { gene: 'BRCA1', hgvs: 'c.5266dupC' },
+];
 
 export default function Search({ onScoreComplete }) {
   const [geneInput, setGeneInput]         = useState('');
@@ -212,6 +216,14 @@ export default function Search({ onScoreComplete }) {
     }
   };
 
+  const handleQuickScore = (gene, hgvs) => {
+    setGeneInput(gene);
+    setSelectedGene(gene);
+    setHgvsInput(hgvs);
+    setHgvsValidation({ valid: true, error: null, hint: null });
+    handleScore(gene, hgvs);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedGene) return;
@@ -291,7 +303,7 @@ export default function Search({ onScoreComplete }) {
             : undefined,
           transition: 'padding-bottom 0.15s ease',
         }}>
-          <span className="hero-badge">DevMutDB introduces DevScore · v1.0 · TBA</span>
+          <span className="hero-badge">AUC 0.931 · 110 benchmark variants · 10 developmental stages</span>
           <h1 className="hero-title">
             Variant pathogenicity in developmental context
           </h1>
@@ -406,6 +418,21 @@ export default function Search({ onScoreComplete }) {
             </div>
           )}
 
+          {!selectedGene && (
+            <div className="example-chips">
+              <span className="example-chips-label">Try it now —</span>
+              {QUICK_EXAMPLES.map(ex => (
+                <button
+                  key={`${ex.gene}-${ex.hgvs}`}
+                  className="example-chip"
+                  onClick={() => handleQuickScore(ex.gene, ex.hgvs)}
+                >
+                  {ex.gene} {ex.hgvs}
+                </button>
+              ))}
+            </div>
+          )}
+
           {error && (
             <div className="alert alert-error" style={{ maxWidth: '640px', margin: '12px auto 0' }}>
               {error}
@@ -413,7 +440,17 @@ export default function Search({ onScoreComplete }) {
           )}
         </main>
 
-        <div className="metrics-divider animate-in animate-delay-1">
+        <div className="hero-stats animate-in animate-delay-1">
+          <span className="hero-stat"><strong>120</strong> curated genes</span>
+          <span className="hero-stat-divider">·</span>
+          <span className="hero-stat"><strong>110</strong> benchmark variants</span>
+          <span className="hero-stat-divider">·</span>
+          <span className="hero-stat"><strong>AUC 0.931</strong> vs CADD +0.474</span>
+          <span className="hero-stat-divider">·</span>
+          <span className="hero-stat"><strong>10</strong> developmental stages</span>
+        </div>
+
+        <div className="metrics-divider animate-in animate-delay-2">
           <span className="metrics-divider-label">Platform capabilities</span>
         </div>
         <section className="metrics-grid animate-in animate-delay-1">
