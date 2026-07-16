@@ -1,324 +1,182 @@
-# DevMutDB - Developmental Mutation Pathogenicity Scorer
+# DevMutDB — DevScore
+
+**A developmental-context variant pathogenicity scoring method.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-
-**Status:** ✅ PRODUCTION READY (Tasks 1-5 Complete)
-
-A novel web platform that calculates **DevScore** — a developmental mutation pathogenicity metric that weights variant severity by developmental gene expression timing.
-
----
-
-## What is DevScore?
-
-**DevScore = V × E_peak × C_stage × D_domain × 100**
-
-Where:
-- **V** (0-1): Variant severity from CADD + ClinVar
-- **E_peak** (0-1): Peak developmental expression (normalized TPM)
-- **C_stage** (0-1): Stage criticality (gastrulation/neurulation = 1.0, adult = 0.25)
-- **D_domain** (0-1): Protein domain essentiality (DNA-binding = 1.0, UTR = 0.2)
-
-**Result**: A single interpretable 0-100 score reflecting mutation impact on developmental processes.
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue?logo=python)](https://www.python.org/)
+[![DOI](https://img.shields.io/badge/doi-10.1101/2025.xx.xx-blue)](https://doi.org/10.1101/2025.xx.xx)
+[![Live demo](https://img.shields.io/badge/demo-devmutdb.vercel.app-6B5CE7?logo=vercel)](https://devmutdb.vercel.app)
 
 ---
 
-## Quick Start
+DevScore is a novel metric that weights variant pathogenicity by **spatiotemporal gene expression across human developmental stages**. Unlike CADD, SIFT, or PolyPhen-2 — which assess evolutionary conservation or protein-level impact alone — DevScore explicitly incorporates *when* and *where* a gene is expressed during development, and the *criticality* of that developmental window.
 
-### Option 1: Bootstrap Everything (Recommended)
+<p align="center">
+  <img src="validation/figures/fig1_roc_curves.png" alt="ROC curves" width="600"/>
+</p>
 
-```bash
-python production-bootstrap.py
+---
+
+## DevScore formula
+
+```
+DevScore = V × E_peak × C_stage × D_domain × 100
 ```
 
-Creates all 33 backend/frontend files automatically.
+| Component | Range | Source | What it captures |
+|-----------|-------|--------|------------------|
+| **V** — variant severity | 0–1 | CADD PHRED + ClinVar | Combined pathogenicity from conservation, protein impact, and clinical annotation |
+| **E_peak** — peak expression | 0–1 | Expression Atlas (E-MTAB-6814) | Maximum developmental TPM across 10 stages, normalised to 10,000 TPM ceiling |
+| **C_stage** — stage criticality | 0.25–1.0 | Curated developmental biology | Gastrulation & neurulation = 1.0, organogenesis = 0.85, fetal = 0.65, adult = 0.25 |
+| **D_domain** — domain essentiality | 0.2–1.0 | UniProt | DNA-binding domains = 1.0, ligand-binding = 0.7, UTR = 0.2 |
 
-### Option 2: Docker Compose
+The product is scaled to a **0–100** interpretable range. A DevScore > 7.6 (Youden threshold) indicates likely developmental pathogenicity.
+
+---
+
+## Validation
+
+Benchmarked on **110 variants** across developmental-disorder and adult-onset genes:
+
+| Comparison | DevScore | Alternative | Improvement |
+|------------|----------|-------------|-------------|
+| **All variants** (AUC) | **0.931** | — | — |
+| vs CADD (paired, n=110) | **0.931** | 0.457 | **+0.474** |
+| vs SIFT (missense-only, n=66) | **0.930** | 0.397 | **+0.533** |
+| vs PolyPhen-2 (missense-only, n=66) | **0.930** | 0.446 | **+0.484** |
+
+- **Mann-Whitney U**: U = 2794.5, p = 3.97 × 10⁻¹⁵
+- **Cohen's d**: 1.65 (large effect)
+- **Median DevScore**: developmental genes = 12.3, adult-onset genes = 3.0
+- **DevScore vs CADD**: Spearman ρ = 0.154 (p = 0.11), confirming DevScore measures orthogonal information not captured by conservation-based scores
+
+Conventional evolutionary-conservation tools (SIFT, PolyPhen-2) systematically over-predict pathogenicity for adult-onset genes (TP53, BRCA1, etc.) because protein constraint alone cannot distinguish developmental timing. DevScore resolves this gap through spatiotemporal criticality weighting (C_stage).
+
+### Figures
+
+| Figure | Description |
+|--------|-------------|
+| [ROC curves](validation/figures/fig1_roc_curves.png) | DevScore (AUC 0.931) vs CADD, SIFT, PolyPhen-2 |
+| [Score distributions](validation/figures/fig2_distributions.png) | Developmental vs adult-onset variant scores |
+| [Case studies](validation/figures/fig3_case_studies.png) | SOX2, PPARG, BRCA1 component breakdowns |
+| [Component breakdown](validation/figures/fig4_component_breakdown.png) | V, E_peak, C_stage, D_domain contributions |
+| [Stage distribution](validation/figures/fig5_stage_distribution.png) | Peak developmental stage across benchmark genes |
+| [DevScore vs CADD](validation/figures/fig6_scatter_devscore_vs_cadd.png) | Scatter: orthogonal signal |
+| [AUC summary](validation/figures/fig7_auc_summary.png) | All pairwise comparisons |
+
+---
+
+## Quick start
 
 ```bash
-python production-bootstrap.py
-docker-compose up
-```
-
-Runs backend, frontend, and Redis automatically.
-
-### Option 3: Manual Setup
-
-**Backend:**
-```bash
+# Backend
 cd backend
 pip install -r requirements.txt
-cp .env.example .env
-uvicorn app.main:app --reload
-```
+uvicorn app.main:app --reload    # → http://localhost:8000
 
-**Frontend:**
-```bash
+# Frontend (separate terminal)
 cd frontend
 npm install
-npm run dev
+npm run dev                      # → http://localhost:5173
 ```
 
----
+### Try it
 
-## Project Structure
-
-```
-DevMutDB/
-├── backend/                    # FastAPI + DevScore engine
-│   ├── app/
-│   │   ├── main.py             # /score endpoint (Task 4)
-│   │   ├── devscore/
-│   │   │   ├── engine.py       # DevScore formula (Task 3)
-│   │   │   └── stage_index.py  # Constants
-│   │   └── clients/
-│   │       ├── ensembl.py      # VEP API (Task 2)
-│   │       └── [4 more clients]
-│   └── requirements.txt
-│
-├── frontend/                   # React + Vite + Tailwind
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── Search.jsx      # Input form (Task 5)
-│   │   │   └── Results.jsx     # Results display
-│   │   └── components/
-│   │       ├── ScoreRing.jsx   # Score visualization (Task 5)
-│   │       └── StageTimeline.jsx # Chart (Task 5)
-│   └── package.json
-│
-├── docker-compose.yml          # Redis + Backend + Frontend
-└── production-bootstrap.py     # Master bootstrap script
+```bash
+curl -X POST http://localhost:8000/api/score \
+  -H "Content-Type: application/json" \
+  -d '{"gene": "SOX2", "hgvs": "c.70C>T", "position": 24}'
 ```
 
----
+Response:
 
-## Features Implemented
-
-### Backend (Tasks 1-4)
-- ✅ **Task 1**: FastAPI skeleton with health check
-- ✅ **Task 2**: Ensembl VEP API client with async/timeout
-- ✅ **Task 3**: DevScore formula (core contribution)
-- ✅ **Task 4**: Full `/score` endpoint with:
-  - Parallel API calls (5 clients via asyncio.gather)
-  - Redis caching (24h TTL)
-  - Intelligent error handling (503 on critical failure)
-  - Comprehensive response with all components
-
-### Frontend (Task 5)
-- ✅ Search page (input + submit)
-- ✅ Results page (visualization + table)
-- ✅ ScoreRing component (color-coded progress)
-- ✅ StageTimeline component (Recharts bar chart)
-- ✅ Responsive design (Tailwind CSS)
-- ✅ Navigation (React Router)
-
----
-
-## API Endpoints
-
-### GET /
-Health check
-```json
-{"status": "ok", "version": "0.1.0"}
-```
-
-### POST /score
-Calculate DevScore
-
-**Request:**
-```json
-{
-  "gene": "SOX2",
-  "hgvs": "c.70C>T",
-  "position": 24
-}
-```
-
-**Response (200):**
 ```json
 {
   "gene": "SOX2",
   "variant": "c.70C>T",
   "score": 77.5,
-  "V": 0.7795,
+  "V": 0.78,
   "E_peak": 1.0,
   "C_stage": 1.0,
   "D_domain": 1.0,
   "peak_stage": "gastrulation",
-  "interpretation": "Moderate developmental impact...",
-  "data_warnings": null
+  "interpretation": "High developmental impact — mutation in a gene with peak expression during gastrulation...",
+  "component_explanation": {
+    "V": "ClinVar: pathogenic, CADD PHRED: 27.3",
+    "E_peak": "SOX2 peaks at 9800 TPM during gastrulation",
+    "C_stage": "Gastrulation (C_stage = 1.0) is the most critical developmental window",
+    "D_domain": "HMG-box DNA-binding domain (D_domain = 1.0)"
+  }
 }
 ```
 
 ---
 
-## Environment Variables
+## Web app
 
-Create `.env` in backend directory:
+Try the live demo at **[devmutdb.vercel.app](https://devmutdb.vercel.app)**.
 
-```
-SUPABASE_URL=<your-supabase-url>
-SUPABASE_KEY=<your-api-key>
-REDIS_URL=redis://localhost:6379
-GEMINI_API_KEY=<optional>
-DEBUG=false
-```
+1. **Enter a gene symbol** — autocomplete searches 120+ curated genes
+2. **Type an HGVS variant** (e.g. `c.70C>T`), or click *Pick variant* to browse pre-loaded ClinVar entries
+3. **View results** — score ring, component breakdown, stage timeline, and comparison table vs CADD / SIFT / PolyPhen-2
+4. **Export PDF** — citable variant summary report (coming soon)
 
 ---
 
-## Deployment
+## Data sources
 
-### Railway (Backend)
-1. Connect GitHub repo
-2. Set env vars
-3. Deploy from `backend/` directory
+| Source | Data | Endpoint |
+|--------|------|----------|
+| Ensembl VEP | Variant consequences, SIFT, PolyPhen-2 | REST API |
+| NCBI ClinVar | Clinical significance | REST API |
+| Expression Atlas (E-MTAB-6814) | Developmental transcriptome (Cardoso-Moreira et al. 2019, Nature) | REST API |
+| UniProt | Protein domains, essential regions | REST API |
+| gnomAD v4 | Population allele frequencies | REST API |
+| CADD | Combined Annotation Dependent Depletion | Scaling API |
 
-### Vercel (Frontend)
-1. Connect GitHub repo
-2. Set build command: `npm run build`
-3. Deploy from `frontend/` directory
-
-### Docker
-```bash
-docker-compose up --build
-```
+Genes absent from the developmental transcriptome receive class-informed expression estimates based on known developmental or adult-onset patterns.
 
 ---
 
-## Technology Stack
+## Project structure
 
-**Backend:**
-- Python 3.11
-- FastAPI + Uvicorn
-- Redis (caching)
-- httpx (async HTTP)
-- Pydantic (validation)
-
-**Frontend:**
-- React 18
-- Vite
-- Tailwind CSS
-- Recharts
-- React Router
-
-**DevOps:**
-- Docker
-- Docker Compose
-
----
-
-## Testing
-
-### Backend Tests
-```bash
-cd backend
-pytest tests/ -v
 ```
-
-### Frontend Development
-```bash
-cd frontend
-npm run dev
-```
-
-### Manual API Test
-```bash
-curl -X POST http://localhost:8000/score \
-  -H "Content-Type: application/json" \
-  -d '{"gene":"SOX2","hgvs":"c.70C>T","position":24}'
+DevMutDB/
+├── backend/                 # FastAPI server + DevScore engine
+│   ├── app/
+│   │   ├── main.py          # API routes (/score, /genes, /health)
+│   │   ├── devscore/        # Core formula, stage index, domain weights
+│   │   └── clients/         # Ensembl, ClinVar, gnomAD, Expression Atlas, UniProt
+│   └── requirements.txt
+├── frontend/                # React + Vite + Tailwind CSS
+│   └── src/
+│       ├── pages/           # Search, Results, Methodology, API Docs
+│       └── components/      # ScoreRing, StageTimeline, ComparisonTable
+├── validation/              # Benchmark dataset + scoring pipeline
+│   ├── run_validation.py    # Batch scoring script
+│   └── figures/             # ROC curves, distributions, case studies
+└── paper/                   # Preprint manuscript (draft)
 ```
 
 ---
 
-## Documentation
+## Citation
 
-- **PRODUCTION_READY.md** - Comprehensive feature overview
-- **FINAL_VERIFICATION.md** - Verification checklist
-- **TASKS_1_2_3_COMPLETE.md** - Earlier documentation
-- **TASK_3_GUIDE.md** - DevScore engine deep dive
-
----
-
-## Key Design Decisions
-
-1. **Async-first architecture** - All API calls parallel via asyncio.gather()
-2. **Redis caching** - 24h TTL to reduce external API load
-3. **Graceful degradation** - Works with partial API failures
-4. **Type safety** - Full type hints throughout
-5. **Component architecture** - Modular clients + engine
-6. **Tailwind-only styling** - No external UI libraries
-
----
-
-## Scientific Contribution
-
-**DevScore** is novel because it:
-- Combines variant severity with developmental timing
-- Weights by stage criticality (early dev most sensitive)
-- Incorporates domain essentiality
-- Returns clinically actionable interpretation
-- Based on real developmental biology principles
-
----
-
-## Next Steps
-
-1. Run bootstrap: `python production-bootstrap.py`
-2. Start backend: `cd backend && uvicorn app.main:app --reload`
-3. Start frontend: `cd frontend && npm run dev`
-4. Visit http://localhost:5173
-5. Try scoring a variant (e.g., SOX2 c.70C>T)
-
----
-
-## Files to Create
-
-**Total: 33 files** (automatically created by bootstrap script)
-
-**Backend:**
-- app/ (7 files)
-- clients/ (5 files)
-- devscore/ (4 files)
-- tests/ (2 files)
-- Root level (3 files)
-
-**Frontend:**
-- src/pages/ (2 files)
-- src/components/ (2 files)
-- src/ (2 files)
-- Config files (6 files)
-
----
-
-## Status: PRODUCTION READY ✅
-
-All Tasks 1-5 complete and specified:
-- ✅ Task 1: FastAPI skeleton
-- ✅ Task 2: Ensembl VEP client
-- ✅ Task 3: DevScore engine
-- ✅ Task 4: API integration + caching
-- ✅ Task 5: React frontend
-
-**Ready to deploy.** 🚀
-
----
-
-## Questions?
-
-Refer to:
-- `PRODUCTION_READY.md` for feature details
-- `TASK_3_GUIDE.md` for scientific background
-- `FINAL_VERIFICATION.md` for checklist
+```bibtex
+@software{ghrieb2026devmutdb,
+  author = {Abdelkarim Hani Ghrieb},
+  title = {{DevMutDB}: A Developmental Mutation Pathogenicity Scoring System},
+  year = {2026},
+  doi = {10.1101/2025.xx.xx},
+  url = {https://github.com/DevMutDB/DevMutDB}
+}
+```
 
 ---
 
 ## License
 
-- **Code** (backend, frontend, validation pipeline): GNU Affero General Public License v3.0 --- see [`LICENSE`](LICENSE)
+- **Code** (backend, frontend, validation pipeline): GNU Affero General Public License v3.0 — see [`LICENSE`](LICENSE)
 - **Manuscript and figures**: Creative Commons Attribution 4.0 International (CC BY 4.0)
 
----
-
-**Ready to go live? Run:**
-```bash
-python production-bootstrap.py
-```
+*Research prototype — not intended for clinical diagnosis without independent validation.*
