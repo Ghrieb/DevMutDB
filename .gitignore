@@ -47,8 +47,6 @@ Latex/Manuscrpit.pdf
 # Downloaded reference PDFs (38 MB — not project source)
 Latex/ref/
 
-# Generated validation figures
-validation/figures/
 
 # Root-level dev artifacts (duplicates, scratch, notes)
 /app/
