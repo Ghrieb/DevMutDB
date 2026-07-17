@@ -16,6 +16,7 @@
 import os
 import sys
 import csv
+import math
 import urllib.request
 import urllib.error
 import json
@@ -394,6 +395,11 @@ def main():
     export_columns = ["gene", "hgvs", "disease", "class", "devscore", "V", "E_peak",
                       "C_stage", "D_domain", "peak_stage", "cadd", "sift", "polyphen", "source"]
     export_records = df[export_columns].copy().to_dict(orient="records")
+    # Convert NaN to None (null in JSON) for clean serialization
+    for rec in export_records:
+        for k, v in rec.items():
+            if isinstance(v, float) and math.isnan(v):
+                rec[k] = None
 
     # ── Filter to successful scores only for statistics ────────────────────
     df_ok = df[df["devscore"].notna()].copy()
