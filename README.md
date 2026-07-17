@@ -10,7 +10,7 @@
 <p align="center">
   <a href="https://devmutdb.vercel.app"><img src="https://img.shields.io/badge/devmutdb.vercel.app-6B5CE7?logo=vercel&logoColor=white" alt="Demo"></a>
   <a href="https://doi.org/10.1101/2025.xx.xx"><img src="https://img.shields.io/badge/DOI-10.1101/2025.xx.xx-2563EB" alt="DOI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL_3.0-059669" alt="License"></a>
+  <img src="https://img.shields.io/badge/license-Restricted-red" alt="License">
   <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/AUC-0.928-7C3AED" alt="AUC">
 </p>
@@ -281,7 +281,7 @@ DevMutDB/
 
 ## License
 
-**Code** (backend, frontend, validation pipeline): GNU Affero General Public License v3.0 — see [`LICENSE`](LICENSE)
+**Code** (backend, frontend, validation pipeline): All Rights Reserved — commercial use, modification, distribution, and patent use prohibited without prior written consent.
 <br>
 **Manuscript and figures**: Creative Commons Attribution 4.0 International (CC BY 4.0)
 

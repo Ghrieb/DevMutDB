@@ -31,14 +31,17 @@
 \title{DevScore : A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants}
 
 \author{%			
-	Abdelkarim Hani Ghrieb\authorNumber{1}{*}
+	Abdelkarim Hani Ghrieb\authorNumber{1,2}{*}
 }
 
 \address{%
 	\affiliation{{1}}{Department of Biology and Physiology of Organisms, Faculty of Biological Sciences, \\ University of Science and Technology Houari Boumediene, BP 32 Bab Ezzouar, 16111 Algiers, Algeria.
-}{
-		{\email{*ghriebabdelkarimhani@my.uopeople.edu}}\\ 
-		}
+	}{
+	}
+	\affiliation{{2}}{Department of Computer Science, University of the People \\ 595 E. Colorado Blvd., Suite 623, Pasadena, CA 91101, USA.
+	}{
+		{\email{*ghriebabdelkarimhani@gmail.com}}\\ 
+	}
 }
 
 \maketitle
@@ -169,7 +172,7 @@ Developmental genes were selected based on: (i) documented role in congenital de
 
 The computational pipeline is implemented as an asynchronous microservice framework designed for high-throughput genomic variant filtering. The backend engine is built with FastAPI \cite{fastapi} (Python) using an \texttt{asyncio} event loop to dispatch concurrent API transactions across five remote database repositories in parallel: Ensembl VEP \cite{ensembl_vep} for variant consequence annotation and sequence retrieval, CADD \cite{cadd,cadd_v14} for molecular severity scoring, ClinVar \cite{clinvar} for clinical classification, gnomAD \cite{gnomad} for population frequency filtering, and EMBL-EBI Expression Atlas \cite{expression_atlas} for developmental transcriptome profiles (E-MTAB-6814), with automated fallback to class-aware estimation for uncharacterised genes. High-frequency variant cross-references are optimized via an in-memory Redis \cite{redis} cache layer with a 24-hour time-to-live. The client interface is a single-page application built with React and Recharts for interactive score visualization, deployed alongside the backend.
 
-The architecture follows the growing methodological trend of integrating transcriptomic data into variant prioritization, as demonstrated by recent approaches combining expression data with genomic annotations \cite{bbag291,Genome_Res_2025_Jensen}. The fully integrated infrastructure is deployed in production at \url{https://devmutdb.vercel.app}, and the entire codebase is open source under the GNU Affero General Public License v3.0, accessible via GitHub at \url{https://github.com/Ghrieb/DevMutDB}.
+The architecture follows the growing methodological trend of integrating transcriptomic data into variant prioritization, as demonstrated by recent approaches combining expression data with genomic annotations \cite{bbag291,Genome_Res_2025_Jensen}. The fully integrated infrastructure is deployed in production at \url{https://devmutdb.vercel.app}, and the entire codebase is available under a restrictive license (commercial use, modification, distribution, and patent use prohibited), accessible via GitHub at \url{https://github.com/Ghrieb/DevMutDB}.
 
 \subsection{Statistical Analysis}
 
@@ -380,7 +383,7 @@ The upper range (20--100) remains theoretically accessible to variants in highly
 
 \subsection{Future Directions}
 
-Integration of single-cell transcriptomic data from the Human Cell Atlas would enable tissue- and cell-type-resolved C\(_{\mathrm{stage}}\) weights, potentially improving resolution for genes with expression restricted to specific neuronal populations or organ compartments. Extension to non-coding variants could build on deep-learning frameworks such as MOSAIC \cite{bbag291} to incorporate developmental chromatin accessibility tracks and histone modification profiles. Population-adjusted E\(_{\mathrm{peak}}\) normalization, accounting for expression quantitative trait locus differences across gnomAD populations \cite{gnomad}, could improve equity of variant interpretation across diverse ancestries. Empirical calibration of C\(_{\mathrm{stage}}\) using Bayesian optimization on DECIPHER or DDD cohorts could transition from categorical to continuous constraint-based weights. Batch VCF upload, programmatic API access, and a fully containerized Docker image for offline deployment are under active development to broaden accessibility and reproducibility.
+Integration of single-cell transcriptomic data from the Human Cell Atlas would enable tissue- and cell-type-resolved C\(_{\mathrm{stage}}\) weights, potentially improving resolution for genes with expression restricted to specific neuronal populations or organ compartments. Extension to non-coding variants could build on deep-learning frameworks such as MOSAIC \cite{bbag291} to incorporate developmental chromatin accessibility tracks and histone modification profiles. Population-adjusted E\(_{\mathrm{peak}}\) normalization, accounting for expression quantitative trait locus differences across gnomAD populations \cite{gnomad}, could improve equity of variant interpretation across diverse ancestries. Empirical calibration of C\(_{\mathrm{stage}}\) using Bayesian optimization on DECIPHER or DDD cohorts could transition from categorical to continuous constraint-based weights.
 
 \subsection{Conclusion}
 
@@ -392,7 +395,7 @@ DevScore adds a biologically motivated developmental dimension absent from all m
 The author thanks the developers and maintainers of the public genomic APIs used in this work: Ensembl VEP, CADD, ClinVar, gnomAD, and EMBL-EBI Expression Atlas. No specific funding was received for this work. The author declares no competing interests.
 
 \section*{Data Availability}
-All data used in this study are derived from publicly available sources (Ensembl VEP, CADD, ClinVar, gnomAD, EMBL-EBI Expression Atlas). The validation benchmark dataset, analysis scripts, and full source code are available at \url{https://github.com/Ghrieb/DevMutDB} under the GNU AGPL v3.0.
+All data used in this study are derived from publicly available sources (Ensembl VEP, CADD, ClinVar, gnomAD, EMBL-EBI Expression Atlas). The validation benchmark dataset, analysis scripts, and full source code are available at \url{https://github.com/Ghrieb/DevMutDB} under a restrictive license.
 
 \section*{Nomenclature}
 
