@@ -9,7 +9,7 @@ export default function ScientificFooter() {
           </p>
           <p className="footer-small">
             Copyright &copy; 2026 Abdelkarim Hani Ghrieb.
-            Code: <strong>GNU AGPL v3.0</strong> | Manuscript &amp; figures: <strong>CC BY 4.0</strong>.
+            Code: <strong>All Rights Reserved</strong> | Manuscript &amp; figures: <strong>CC BY 4.0</strong>.
             Research use only; not intended for clinical diagnosis without independent validation.
           </p>
         </div>

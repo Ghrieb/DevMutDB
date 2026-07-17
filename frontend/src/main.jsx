@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: 2025 Abdelkarim Hani Ghrieb
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: LicenseRef-Proprietary
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
