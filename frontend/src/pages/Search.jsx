@@ -303,7 +303,7 @@ export default function Search({ onScoreComplete }) {
             : undefined,
           transition: 'padding-bottom 0.15s ease',
         }}>
-          <span className="hero-badge">AUC 0.931 · 110 benchmark variants · 10 developmental stages</span>
+          <span className="hero-badge">AUC 0.928 · 110 benchmark variants · 10 developmental stages</span>
           <h1 className="hero-title">
             Variant pathogenicity in developmental context
           </h1>
@@ -445,7 +445,7 @@ export default function Search({ onScoreComplete }) {
           <span className="hero-stat-divider">·</span>
           <span className="hero-stat"><strong>110</strong> benchmark variants</span>
           <span className="hero-stat-divider">·</span>
-          <span className="hero-stat"><strong>AUC 0.931</strong> vs CADD +0.474</span>
+          <span className="hero-stat"><strong>AUC 0.928</strong> vs CADD +0.471</span>
           <span className="hero-stat-divider">·</span>
           <span className="hero-stat"><strong>10</strong> developmental stages</span>
         </div>

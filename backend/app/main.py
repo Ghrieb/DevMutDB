@@ -569,14 +569,17 @@ async def score(request: ScoreRequest) -> Dict[str, Any]:
         kv = KNOWN_VALUES.get(request.gene, {})
         cadd_phred = kv.get("cadd_phred")
 
-    # ── Soft failures: VEP errors & unresolved variants become warnings ──
-    vep_warning = None
+    # ── Hard failure: VEP must succeed ──
     if isinstance(vep_result, Exception):
-        vep_warning = f"VEP error: {str(vep_result)}"
-        vep_result = {"most_severe_consequence": None, "sift_score": None, "polyphen_score": None, "cadd_phred": cadd_phred}
-    elif isinstance(vep_result, dict) and vep_result.get("most_severe_consequence") is None:
-        vep_warning = f"Variant '{request.hgvs}' in gene '{request.gene}' not resolved by Ensembl — scored with available data"
-        vep_result = {"most_severe_consequence": "unknown", "sift_score": None, "polyphen_score": None, "cadd_phred": cadd_phred}
+        msg = str(vep_result)
+        raise HTTPException(status_code=502, detail=f"VEP API error: {msg}")
+
+    # Validate variant exists in Ensembl
+    if isinstance(vep_result, dict) and vep_result.get("most_severe_consequence") is None:
+        raise HTTPException(status_code=422, detail=(
+            f"Variant '{request.hgvs}' in gene '{request.gene}' could not be found "
+            "in Ensembl. Please check the HGVS notation and gene symbol."
+        ))
 
     # ── Soft failures: CADD and non-critical APIs just use defaults ──
     if cadd_result is not None and isinstance(cadd_result, Exception):
@@ -623,7 +626,7 @@ async def score(request: ScoreRequest) -> Dict[str, Any]:
         "interpretation": result.interpretation,
         "ai_interpretation": result.ai_interpretation,
         "component_explanation": result.component_explanation,
-        "data_warnings": [vep_warning] if vep_warning else None,
+        "data_warnings": None,
         "source": "live_api",
         "gene_info": gene_info_result if isinstance(gene_info_result, dict) and gene_info_result.get("chromosome") else None,
         "protein_change": None,

@@ -389,13 +389,11 @@ def main():
     df.to_csv(RESULTS_CSV, index=False)
     print(f"\n  Saved {len(df)} results to {RESULTS_CSV}")
 
-    # Export benchmark data as JSON for frontend
+    # Export benchmark data as JSON for frontend (meta updated later with full stats)
     frontend_json_path = os.path.join(SCRIPT_DIR, "..", "frontend", "src", "data", "benchmark_results.json")
     export_columns = ["gene", "hgvs", "disease", "class", "devscore", "V", "E_peak",
                       "C_stage", "D_domain", "peak_stage", "cadd", "sift", "polyphen", "source"]
-    export_df = df[export_columns].copy()
-    export_df.to_json(frontend_json_path, orient="records", indent=2)
-    print(f"  Saved {len(export_df)} gene records to {frontend_json_path} for frontend")
+    export_records = df[export_columns].copy().to_dict(orient="records")
 
     # ── Filter to successful scores only for statistics ────────────────────
     df_ok = df[df["devscore"].notna()].copy()
@@ -539,7 +537,7 @@ def main():
     valid = valid_cadd  # use CADD-paired subset for ROC figure (most rigorous comparison)
 
     # ── Save statistics report ──────────────────────────────────────────────
-    with open(REPORT_TXT, "w") as f:
+    with open(REPORT_TXT, "w", encoding="utf-8") as f:
         f.write("DevMutDB Validation Statistics Report\n")
         f.write("=" * 50 + "\n\n")
         f.write(f"Benchmark: {len(dev)} developmental + {len(adult)} adult-onset genes\n")
@@ -574,7 +572,7 @@ def main():
     # ── Tier Distribution Analysis ──────────────────────────────────────
     tier_rows, tier_cumul, tier_cstage, tier_peak = tier_analysis(dev, adult)
 
-    with open(REPORT_TXT, "a") as f:
+    with open(REPORT_TXT, "a", encoding="utf-8") as f:
         f.write(f"\n─── Interpretative Scale — Tier Distribution ────────────────\n")
         f.write(f"{'Tier':<20} {'Dev':>5} {'Adult':>5} {'Sens':>7} {'Spec':>7} {'PPV':>7}\n")
         for name, d, a, sens, spec, ppv in tier_rows:
@@ -946,6 +944,35 @@ def main():
     print(f"  Spearman rho (vs CADD):       {rho:.3f}  "
           f"({'low -> orthogonal' if abs(rho) < 0.5 else 'moderate'})")
     print(f"  Partial Spearman (residuals):  {rho_partial:.3f}")
+    # ── Export final {meta, genes} JSON for frontend ──
+    meta = {
+        "headline_auc": round(auc_dev, 3),
+        "devscore_auc": round(auc_dev, 3),
+        "cadd_auc": round(auc_cadd, 3),
+        "sift_auc": round(auc_sift, 3),
+        "polyphen_auc": round(auc_pp, 3),
+        "cadd_margin": round(auc_dev_paired_cadd - auc_cadd, 3),
+        "sift_margin": round(auc_dev_vep - auc_sift, 3),
+        "polyphen_margin": round(auc_dev_vep - auc_pp, 3),
+        "total_genes": len(df_ok),
+        "dev_median": round(float(dev['devscore'].median()), 1),
+        "adult_median": round(float(adult['devscore'].median()), 1),
+        "cohens_d": round(float(cohens_d), 2),
+        "spearman_rho": round(float(rho), 3),
+        "spearman_p": round(float(p_spearman), 4),
+        "partial_spearman_rho": round(float(rho_partial), 3),
+        "partial_spearman_p": round(float(p_partial), 5),
+        "youden_threshold": round(float(opt_threshold), 2),
+        "youden_sensitivity": round(float(opt_sensitivity), 3),
+        "youden_specificity": round(float(opt_specificity), 3),
+        "mann_whitney_u": round(float(stat_val), 1),
+        "mann_whitney_p": float(f"{p_value:.2e}"),
+    }
+    payload = {"meta": meta, "genes": export_records}
+    with open(frontend_json_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+    print(f"  Saved {len(export_records)} gene records to {frontend_json_path} for frontend")
+
     print("-" * 62)
     print("  FILES SAVED:")
     print(f"  {RESULTS_CSV}")

@@ -147,7 +147,7 @@ export default function ValidationExplorer() {
               <Legend
                 formatter={(value) => <span style={LEGEND_STYLE}>{value}</span>}
               />
-              <ReferenceLine y={7.6} stroke="#D94040" strokeDasharray="5 5" label={{ value: 'Youden threshold (7.6)', position: 'right', fill: '#D94040', fontSize: 11 }} />
+              <ReferenceLine y={8.5} stroke="#D94040" strokeDasharray="5 5" label={{ value: 'Youden threshold (8.5)', position: 'right', fill: '#D94040', fontSize: 11 }} />
               <Scatter name="Developmental" data={devGenes} fill="#6D62D9" shape={<CustomScatterDot />} />
               <Scatter name="Adult-onset" data={adultGenes} fill="#1D9E75" shape={<CustomScatterDot />} />
             </ScatterChart>

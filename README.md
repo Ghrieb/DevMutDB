@@ -12,7 +12,7 @@
   <a href="https://doi.org/10.1101/2025.xx.xx"><img src="https://img.shields.io/badge/DOI-10.1101/2025.xx.xx-2563EB" alt="DOI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL_3.0-059669" alt="License"></a>
   <img src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/AUC-0.931-7C3AED" alt="AUC">
+  <img src="https://img.shields.io/badge/AUC-0.928-7C3AED" alt="AUC">
 </p>
 
 ---
@@ -63,7 +63,7 @@ DevScore = V × E_peak × C_stage × D_domain × 100
   </tbody>
 </table>
 
-A DevScore > **7.6** (Youden threshold) indicates likely developmental pathogenicity. Scores range 0–100.
+A DevScore > **8.5** (Youden threshold) indicates likely developmental pathogenicity. Scores range 0–100.
 
 ---
 
@@ -80,7 +80,7 @@ Benchmarked on **110 variants** across developmental-disorder and adult-onset ge
   <tbody>
     <tr>
       <td><b>DevScore</b> (all variants, n=110)</td>
-      <td align="right"><b>0.931</b></td>
+      <td align="right"><b>0.928</b></td>
       <td>⬤ —</td>
       <td align="right"></td>
     </tr>
@@ -88,26 +88,26 @@ Benchmarked on **110 variants** across developmental-disorder and adult-onset ge
       <td>CADD (paired, n=110)</td>
       <td align="right">0.457</td>
       <td>⬤</td>
-      <td align="right"><b>+0.474</b></td>
+      <td align="right"><b>+0.471</b></td>
     </tr>
     <tr>
       <td>SIFT (missense-only, n=66)</td>
       <td align="right">0.397</td>
       <td>⬤</td>
-      <td align="right"><b>+0.533</b></td>
+      <td align="right"><b>+0.536</b></td>
     </tr>
     <tr>
       <td>PolyPhen-2 (missense-only, n=66)</td>
       <td align="right">0.446</td>
       <td>⬤</td>
-      <td align="right"><b>+0.484</b></td>
+      <td align="right"><b>+0.487</b></td>
     </tr>
   </tbody>
 </table>
 
-<p><b>Mann-Whitney U:</b> U = 2794.5, p = 3.97 × 10⁻¹⁵ &nbsp;·&nbsp; <b>Cohen's d:</b> 1.65 (large effect) &nbsp;·&nbsp; <b>Median DevScore:</b> developmental = 12.3 vs adult-onset = 3.0</p>
+<p><b>Mann-Whitney U:</b> U = 2784.5, p = 6.38 × 10⁻¹⁵ &nbsp;·&nbsp; <b>Cohen's d:</b> 1.77 (very large effect) &nbsp;·&nbsp; <b>Median DevScore:</b> developmental = 16.6 vs adult-onset = 4.0</p>
 
-Conventional conservation tools systematically over-predict pathogenicity for adult-onset genes (TP53, BRCA1, etc.) because protein constraint alone cannot resolve developmental timing. DevScore fills this gap through spatiotemporal criticality weighting (C_stage). Spearman ρ(DevScore, CADD) = 0.154 (p = 0.11) — **orthogonal information**.
+Conventional conservation tools systematically over-predict pathogenicity for adult-onset genes (TP53, BRCA1, etc.) because protein constraint alone cannot resolve developmental timing. DevScore fills this gap through spatiotemporal criticality weighting (C_stage). Spearman ρ(DevScore, CADD) = 0.156 (p = 0.103) — **orthogonal information**.
 
 ---
 
@@ -119,13 +119,13 @@ Conventional conservation tools systematically over-predict pathogenicity for ad
       <img src="validation/figures/fig1_roc_curves.png" alt="ROC curves" width="100%">
       <br>
       <b>ROC curves</b><br>
-      <sub>DevScore (AUC 0.931) vs CADD (0.457), SIFT (0.397), PolyPhen-2 (0.446) across 110 benchmark variants</sub>
+      <sub>DevScore (AUC 0.928) vs CADD (0.457), SIFT (0.397), PolyPhen-2 (0.446) across 110 benchmark variants</sub>
     </td>
     <td width="50%" valign="top" align="center">
       <img src="validation/figures/fig2_distributions.png" alt="Score distributions" width="100%">
       <br>
       <b>Score distributions</b><br>
-      <sub>Developmental-disorder variants (median 12.3) vs adult-onset controls (median 3.0), p = 3.97 × 10⁻¹⁵</sub>
+      <sub>Developmental-disorder variants (median 16.6) vs adult-onset controls (median 4.0), p = 6.38 × 10⁻¹⁵</sub>
     </td>
   </tr>
   <tr>
@@ -133,7 +133,7 @@ Conventional conservation tools systematically over-predict pathogenicity for ad
       <img src="validation/figures/fig3_case_studies.png" alt="Case studies" width="100%">
       <br>
       <b>Case studies</b><br>
-      <sub>SOX2 (DevScore 77.5), PPARG (11.5), BRCA1 (3.8) — component contributions</sub>
+      <sub>SOX2 (DevScore 52.8), MECP2 (23.3), BRCA1 (3.8) — component contributions</sub>
     </td>
     <td width="50%" valign="top" align="center">
       <img src="validation/figures/fig4_component_breakdown.png" alt="Component breakdown" width="100%">
@@ -153,7 +153,7 @@ Conventional conservation tools systematically over-predict pathogenicity for ad
       <img src="validation/figures/fig6_scatter_devscore_vs_cadd.png" alt="DevScore vs CADD scatter" width="100%">
       <br>
       <b>DevScore vs CADD</b><br>
-      <sub>Spearman ρ = 0.154 — DevScore captures orthogonal developmental signal not present in conservation-based scores</sub>
+      <sub>Spearman ρ = 0.156 — DevScore captures orthogonal developmental signal not present in conservation-based scores</sub>
     </td>
   </tr>
   <tr>
@@ -161,7 +161,7 @@ Conventional conservation tools systematically over-predict pathogenicity for ad
       <img src="validation/figures/fig7_auc_summary.png" alt="AUC summary" width="100%">
       <br>
       <b>AUC comparison summary</b><br>
-      <sub>DevScore outperforms CADD (+0.474), SIFT (+0.533), and PolyPhen-2 (+0.484) across all pairwise comparisons</sub>
+      <sub>DevScore outperforms CADD (+0.471), SIFT (+0.536), and PolyPhen-2 (+0.487) across all pairwise comparisons</sub>
     </td>
     <td width="50%" valign="top" align="center">
       <img src="validation/figures/fig6_devscore_vs_cadd.png" alt="DevScore vs CADD comparison" width="100%">
@@ -200,15 +200,15 @@ curl -X POST http://localhost:8000/api/score \
 {
   "gene": "SOX2",
   "variant": "c.70C>T",
-  "score": 77.5,
-  "V": 0.78,
-  "E_peak": 1.0,
+  "score": 52.8,
+  "V": 0.91,
+  "E_peak": 0.58,
   "C_stage": 1.0,
   "D_domain": 1.0,
   "peak_stage": "gastrulation",
   "component_explanation": {
-    "V":        "ClinVar: pathogenic · CADD PHRED: 27.3",
-    "E_peak":   "SOX2 peaks at 9800 TPM during gastrulation",
+    "V":        "ClinVar: pathogenic · CADD PHRED: 34.0",
+    "E_peak":   "SOX2 peaks at 5800 TPM during gastrulation",
     "C_stage":  "Gastrulation (C_stage = 1.0) is the most critical developmental window",
     "D_domain": "HMG-box DNA-binding domain (D_domain = 1.0)"
   }

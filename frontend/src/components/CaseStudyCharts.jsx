@@ -266,7 +266,7 @@ function ScatterCard() {
           <Legend
             formatter={(value) => <span style={LEGEND_STYLE}>{value}</span>}
           />
-          <ReferenceLine y={7.6} stroke="#D94040" strokeDasharray="5 5" label={{ value: 'Youden threshold', position: 'right', fill: '#D94040', fontSize: 10 }} />
+          <ReferenceLine y={8.5} stroke="#D94040" strokeDasharray="5 5" label={{ value: 'Youden threshold', position: 'right', fill: '#D94040', fontSize: 10 }} />
           <Scatter name="Developmental" data={devGenes} fill={COLORS.developmental} shape={<CustomScatterDot />} />
           <Scatter name="Adult-onset" data={adultGenes} fill={COLORS.adult} shape={<CustomScatterDot />} />
         </ScatterChart>

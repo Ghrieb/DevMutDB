@@ -209,56 +209,55 @@ export default function Methodology() {
           <h3>Headline performance</h3>
           <div className="validation-summary">
             <div className="validation-metric">
-              <strong>TBD</strong>
-              <span>DevScore AUC (n=110, all variant classes) &mdash; <em>updated after recalibration</em></span>
+              <strong>0.928</strong>
+              <span>DevScore AUC (n=110, all variant classes)</span>
             </div>
             <div className="validation-metric">
-              <strong>TBD</strong>
-              <span>DevScore AUC (missense-only, n=66) &mdash; <em>updated after recalibration</em></span>
+              <strong>0.933</strong>
+              <span>DevScore AUC (missense-only, n=66)</span>
             </div>
           </div>
 
           <h3>Comparison with standard tools</h3>
-          <p className="method-note"><em>Values TBD &mdash; benchmark under recalibration following domain classification fix.</em></p>
           <div className="validation-metrics-grid">
             <div className="validation-compare">
               <span className="compare-tool">DevScore</span>
-              <span className="compare-auc">TBD</span>
+              <span className="compare-auc">0.928</span>
               <span className="compare-margin">&mdash;</span>
             </div>
             <div className="validation-compare">
               <span className="compare-tool">CADD</span>
-              <span className="compare-auc">TBD</span>
-              <span className="compare-margin positive">+TBD</span>
+              <span className="compare-auc">0.457</span>
+              <span className="compare-margin positive">+0.471</span>
             </div>
             <div className="validation-compare">
               <span className="compare-tool">SIFT</span>
-              <span className="compare-auc">TBD</span>
-              <span className="compare-margin positive">+TBD</span>
+              <span className="compare-auc">0.397</span>
+              <span className="compare-margin positive">+0.536</span>
             </div>
             <div className="validation-compare">
               <span className="compare-tool">PolyPhen-2</span>
-              <span className="compare-auc">TBD</span>
-              <span className="compare-margin positive">+TBD</span>
+              <span className="compare-auc">0.446</span>
+              <span className="compare-margin positive">+0.487</span>
             </div>
           </div>
 
           <h3>Effect size</h3>
           <p>
-            Median DevScore for developmental genes: <strong>TBD</strong> vs adult-onset: <strong>TBD</strong>.
-            Cohen&rsquo;s <em>d</em> = <strong>TBD</strong>, Mann-Whitney <em>p</em> = <strong>TBD</strong>.
+            Median DevScore for developmental genes: <strong>16.6</strong> vs adult-onset: <strong>4.0</strong>.
+            Cohen&rsquo;s <em>d</em> = <strong>1.77</strong>, Mann-Whitney <em>p</em> = <strong>6.38 &times; 10<sup>&minus;15</sup></strong>.
           </p>
 
           <h3>Orthogonality to CADD</h3>
           <p>
-            Spearman <em>&rho;</em>(DevScore, CADD) = <strong>TBD</strong> (p = TBD).
-            Partial Spearman (controlling for disease class): <em>&rho;</em> = <strong>TBD</strong> (p = TBD).
+            Spearman <em>&rho;</em>(DevScore, CADD) = <strong>0.156</strong> (p = 0.103).
+            Partial Spearman (controlling for disease class): <em>&rho;</em> = <strong>0.299</strong> (p = 1.49 &times; 10<sup>&minus;3</sup>).
             The low correlation confirms that DevScore captures developmental timing information absent from CADD.
           </p>
 
           <h3>Tier analysis</h3>
           <p>
-            <em>Figure 8: Tier distribution bar chart &mdash; coming after recalibration.</em>
+            Figure 8 shows the tier distribution.
           </p>
           <table className="method-table compact">
             <thead>
@@ -272,9 +271,10 @@ export default function Methodology() {
               </tr>
             </thead>
             <tbody>
-              <tr><td>High</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
-              <tr><td>Moderate</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
-              <tr><td>Low</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td></tr>
+              <tr><td>High (&ge;20)</td><td>17</td><td>0</td><td>28.3%</td><td>100%</td><td>100%</td></tr>
+              <tr><td>Moderate (10&ndash;19)</td><td>27</td><td>1</td><td>45.0%</td><td>98.0%</td><td>96.4%</td></tr>
+              <tr className="tier-cumulative"><td><strong>Cumulative (&ge;10)</strong></td><td><strong>44</strong></td><td><strong>1</strong></td><td><strong>75.0%</strong></td><td><strong>98.0%</strong></td><td><strong>97.8%</strong></td></tr>
+              <tr><td>Low (&lt;10)</td><td>14</td><td>46</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
             </tbody>
           </table>
 
@@ -287,7 +287,6 @@ export default function Methodology() {
           <p>
             A hyperparameter sweep across seven CADD:ClinVar ratios (50:50 to 80:20) was performed to validate the 60:40 operational architecture.
           </p>
-          <p className="method-note"><em>Values TBD &mdash; weight sensitivity analysis will be re-run after benchmark recalibration.</em></p>
           <table className="method-table compact">
             <thead>
               <tr>
@@ -300,30 +299,30 @@ export default function Methodology() {
             </thead>
             <tbody>
               <tr>
-                <td>50:50</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>50:50</td><td>0.931</td><td>1.713</td><td>4.18 &times; 10<sup>&minus;15</sup></td><td>1.0</td>
               </tr>
               <tr>
-                <td>55:45</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>55:45</td><td>0.929</td><td>1.702</td><td>5.30 &times; 10<sup>&minus;15</sup></td><td>1.0</td>
               </tr>
               <tr className="ws-optimal">
-                <td><strong>60:40</strong></td><td><strong>TBD</strong></td><td><strong>TBD</strong></td><td><strong>TBD</strong></td><td><strong>TBD</strong></td>
+                <td><strong>60:40</strong></td><td><strong>0.928</strong></td><td><strong>1.689</strong></td><td><strong>6.71 &times; 10<sup>&minus;15</sup></strong></td><td><strong>1.0</strong></td>
               </tr>
               <tr>
-                <td>65:35</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>65:35</td><td>0.927</td><td>1.675</td><td>7.03 &times; 10<sup>&minus;15</sup></td><td>1.0</td>
               </tr>
               <tr>
-                <td>70:30</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>70:30</td><td>0.924</td><td>1.660</td><td>1.07 &times; 10<sup>&minus;14</sup></td><td>1.0</td>
               </tr>
               <tr>
-                <td>75:25</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>75:25</td><td>0.923</td><td>1.645</td><td>1.29 &times; 10<sup>&minus;14</sup></td><td>1.0</td>
               </tr>
               <tr>
-                <td>80:20</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+                <td>80:20</td><td>0.922</td><td>1.628</td><td>1.55 &times; 10<sup>&minus;14</sup></td><td>1.0</td>
               </tr>
             </tbody>
           </table>
           <p>
-            Spearman <em>&rho;</em> = <strong>TBD</strong> across all ratios confirms rank-order invariance. The 60:40 configuration (AUC = TBD, Cohen&rsquo;s d = TBD, p = TBD) was selected as the optimal operational architecture.
+            Spearman <em>&rho;</em> = <strong>1.0</strong> across all ratios confirms rank-order invariance. The 60:40 configuration (AUC = 0.928, Cohen&rsquo;s d = 1.689, p = 6.71 &times; 10<sup>&minus;15</sup>) was selected as the optimal operational architecture.
           </p>
         </section>
 

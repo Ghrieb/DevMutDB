@@ -4,25 +4,46 @@ DevMutDB Validation Statistics Report
 Benchmark: 60 developmental + 50 adult-onset genes
 API failures: 0
 
-DevScore AUC 95% CI: (0.875--0.976)
-Youden's J: threshold=7.60, sensitivity=0.850, specificity=0.940
+DevScore AUC 95% CI: (0.873--0.973)
+Youden's J: threshold=8.50, sensitivity=0.833, specificity=0.920
 
 AUC Results (three decoupled pairwise subsets):
-  Subset 1 � Headline DevScore (n=110, all variant classes):
-    DevScore:                 0.931
-  Subset 2 � vs CADD (n=110, CADD-resolved variants):
-    DevScore (paired):         0.931
+  Subset 1 — Headline DevScore (n=110, all variant classes):
+    DevScore:                 0.928
+  Subset 2 — vs CADD (n=110, CADD-resolved variants):
+    DevScore (paired):         0.928
     CADD:                      0.457
-    Improvement (DevScore-CADD): +0.474
-  Subset 3 � Missense-only (n=66, SIFT+PolyPhen applicable):
-    DevScore (missense-paired): 0.930
-    SIFT:                      0.397  (evolutionary constraint � onset-blind)
-    PolyPhen-2:                0.446  (evolutionary constraint � onset-blind)
+    Improvement (DevScore-CADD): +0.471
+  Subset 3 — Missense-only (n=66, SIFT+PolyPhen applicable):
+    DevScore (missense-paired): 0.933
+    SIFT:                      0.397  (evolutionary constraint — onset-blind)
+    PolyPhen-2:                0.446  (evolutionary constraint — onset-blind)
   Note: SIFT AUC=0.397 and PolyPhen-2 AUC=0.446: Sequence-level conservation algorithms assign severe pathogenicity to adult Mendelian controls (e.g., TP53, BRCA1), demonstrating that evolutionary constraint alone cannot resolve developmental timing. DevScore addresses this ontological gap via spatiotemporal criticality (C_stage).
 
-Mann-Whitney U: U=2794.5, p=3.97e-15 ***
-Cohen's d: 1.65
-Dev genes median DevScore: 12.3
-Adult genes median DevScore: 3.0
-Spearman(DevScore, CADD): rho=0.154, p=1.091e-01
-Partial Spearman (controlling for class): rho=0.316, p=7.799e-04
+Mann-Whitney U: U=2784.5, p=6.38e-15 ***
+Cohen's d: 1.77
+Dev genes median DevScore: 16.6
+Adult genes median DevScore: 4.0
+Spearman(DevScore, CADD): rho=0.156, p=1.032e-01
+Partial Spearman (controlling for class): rho=0.299, p=1.489e-03
+
+─── Interpretative Scale — Tier Distribution ────────────────
+Tier                   Dev Adult    Sens    Spec     PPV
+Low (0-9)               14    46  23.3%   8.0%  23.3%
+Moderate (10-19)        27     1  45.0%  98.0%  96.4%
+High (>=20)             17     0  28.3% 100.0% 100.0%
+
+Moderate+High (>=10) as positive:
+  Sensitivity: 73.33%
+  Specificity: 98.00%
+  PPV:         97.78%
+
+Mean C_stage per tier:
+  Low (0-9)            dev=0.693  adult=0.250
+  Moderate (10-19)     dev=0.891  adult=0.250
+  High (>=20)          dev=0.982  adult=N/A
+
+Dev gene peak stage distribution (count):
+  Low (0-9)            Organogenesis:3, Neonatal:3, Fetal Early:3, Fetal Late:2, Gastrulation:2, Neurulation:1
+  Moderate (10-19)     Organogenesis:14, Fetal Early:5, Neurulation:5, Gastrulation:2, Fetal Late:1
+  High (>=20)          Gastrulation:8, Organogenesis:6, Neurulation:3

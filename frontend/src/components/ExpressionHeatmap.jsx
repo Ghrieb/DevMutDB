@@ -1,13 +1,13 @@
 const STAGE_META = {
-  zygote: { label: 'Zygote', criticality: 0.85, color: '#C43B3B' },
-  blastocyst: { label: 'Blastocyst', criticality: 0.9, color: '#D94841' },
+  zygote: { label: 'Zygote', criticality: 0.88, color: '#C43B3B' },
+  blastocyst: { label: 'Blastocyst', criticality: 0.85, color: '#D94841' },
   gastrulation: { label: 'Gastrulation', criticality: 1, color: '#E23D3D' },
   neurulation: { label: 'Neurulation', criticality: 1, color: '#B91C1C' },
   organogenesis: { label: 'Organogenesis', criticality: 0.95, color: '#EF7D32' },
   fetal_early: { label: 'Fetal early', criticality: 0.65, color: '#E7B642' },
   fetal_late: { label: 'Fetal late', criticality: 0.5, color: '#D7C75C' },
-  neonatal: { label: 'Neonatal', criticality: 0.35, color: '#8CC9A3' },
-  childhood: { label: 'Childhood', criticality: 0.3, color: '#54B889' },
+  neonatal: { label: 'Neonatal', criticality: 0.30, color: '#8CC9A3' },
+  childhood: { label: 'Childhood', criticality: 0.28, color: '#54B889' },
   adult: { label: 'Adult', criticality: 0.25, color: '#1FA37A' },
 };
 

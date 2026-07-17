@@ -256,18 +256,18 @@ export default function Results({ result }) {
             If you use DevScore or the DevMutDB platform in your research, please cite our preprint:
           </p>
           <div className="bg-white p-4 rounded border border-gray-200 mb-4 font-mono text-sm text-gray-800 shadow-sm leading-relaxed select-all">
-            <strong>Ghrieb, A. H.</strong> (2025). <em>DevScore: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants</em>. bioRxiv preprint. DOI: TBD
+            <strong>Ghrieb, A. H.</strong> (2026). <em>DevScore: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants</em>. bioRxiv preprint. DOI: TBD
           </div>
           <details className="text-xs text-gray-500 cursor-pointer">
             <summary className="font-semibold text-purple-600 hover:text-purple-800 transition-colors mb-2">
               Show BibTeX citation
             </summary>
             <pre className="bg-gray-50 p-3 rounded border border-gray-200 font-mono overflow-x-auto text-[11px] leading-tight select-all">
-{`@article{ghrieb2025devscore,
+{`@article{ghrieb2026devscore,
   title={DevScore: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants},
   author={Ghrieb, Abdelkarim Hani},
   journal={bioRxiv preprint},
-  year={2025},
+  year={2026},
   doi={TBD}
 }`}
             </pre>
