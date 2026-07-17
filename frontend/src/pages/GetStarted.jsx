@@ -55,11 +55,11 @@ export default function GetStarted() {
             DevMutDB introduces DevScore &mdash; the first tool that weights mutation severity by <strong>spatiotemporal gene expression</strong> across human developmental stages. This answers: when does this gene matter most?
           </p>
           <div className="hero-stats">
-            <span className="hero-stat"><strong>AUC 0.931</strong> DevScore (n=110)</span>
+            <span className="hero-stat"><strong>AUC 0.928</strong> DevScore (n=110)</span>
             <span className="hero-stat-divider" aria-hidden="true">·</span>
-            <span className="hero-stat"><strong>Cohen&rsquo;s d 1.65</strong> very large</span>
+            <span className="hero-stat"><strong>Cohen&rsquo;s d 1.77</strong> very large</span>
             <span className="hero-stat-divider" aria-hidden="true">·</span>
-            <span className="hero-stat"><strong>p = 3.97 &times; 10<sup>&minus;15</sup></strong> Mann-Whitney</span>
+            <span className="hero-stat"><strong>p = 6.38 &times; 10<sup>&minus;15</sup></strong> Mann-Whitney</span>
             <span className="hero-stat-divider" aria-hidden="true">·</span>
             <span className="hero-stat"><strong>60</strong> developmental + <strong>50</strong> adult-onset genes</span>
           </div>

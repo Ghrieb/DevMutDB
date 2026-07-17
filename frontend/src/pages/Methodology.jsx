@@ -238,7 +238,7 @@ export default function Methodology() {
             <div className="validation-compare">
               <span className="compare-tool">PolyPhen-2</span>
               <span className="compare-auc">0.446</span>
-              <span className="compare-margin positive">+0.487</span>
+              <span className="compare-margin positive">+0.488</span>
             </div>
           </div>
 
