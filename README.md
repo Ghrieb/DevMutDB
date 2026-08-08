@@ -270,14 +270,12 @@ DevMutDB/
 ```bibtex
 @software{ghrieb2026devmutdb,
   author = {Abdelkarim Hani Ghrieb},
-  title  = {{DevMutDB}: A Developmental Mutation Pathogenicity Scoring System},
+  title  = {{DevScore}: A Spatiotemporal Criticality Index for Improved Pathogenicity Prediction of Developmental Variants},
   year   = {2026},
   doi    = {10.1101/2025.xx.xx},
   url    = {https://github.com/Ghrieb/DevMutDB}
 }
 ```
-
----
 
 ## License
 
